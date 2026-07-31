@@ -1,6 +1,6 @@
 # Trading Agent — Dip-Buy Loop
 
-Status: **spec agreed, scheduling in progress, blocked on Robinhood MCP setup**. This file is the source of truth for the strategy design. Build against this — don't re-derive it from scratch in a new session.
+Status: **LIVE as of 2026-07-31.** All 3 scheduled routines are running with real money, fully autonomous. This file is the source of truth for the strategy design; `AGENT_PROMPT.md` is the source of truth for the runtime logic the loop actually executes. Build against these — don't re-derive from scratch in a new session. If something needs to stop immediately, create a `PAUSE` file in the repo root and push it (see AGENT_PROMPT.md Step 0) — it's checked at the start of every run, not instantly.
 
 ## Goal
 
@@ -90,9 +90,21 @@ Live capital + full autonomy + zero trial period is the single riskiest combinat
 
 **Leftover, harmless:** two throwaway one-shot test routines exist and have already fired (`ended_reason: run_once_fired`, can't recur) — `trig_01T5NcAzCvCdY5L7nbytqF3k` (GitLab attempt, failed as expected) and `trig_01GZW99MqStSXqcj9pmgRtzg` (GitHub, succeeded). The `RemoteTrigger` tool cannot delete routines; if the user wants them off the list, do it manually at https://claude.ai/code/routines — not urgent.
 
-**Still blocked on, in order:**
+7. ~~Create the 3 production `RemoteTrigger` routines~~ — **DONE. The loop is live as of 2026-07-31.**
+   - Runtime instructions drafted as `AGENT_PROMPT.md` (self-contained step-by-step procedure, read fresh by the agent every run). It documents 9 implementation-level judgment calls not explicitly locked in this file's ranges (exact position size, take-profit/stop-loss %, circuit-breaker %, max hold days, positions-per-run cap, pause-flag mechanism, starting-capital reference, sector field source) — all reviewed and confirmed by the user before going live. See that file's top callout table; keep it in sync if any of these are revisited.
+   - Pre-launch, a full-production-config wiring test (throwaway, read-only, no trades/no writes) confirmed the Robinhood MCP tools, WebSearch, and PushNotification all work correctly inside a routine, and that push notifications actually arrive on-device — not just that the tool call reports success.
+   - Production routines (all: model `claude-opus-4-8`, repo `https://github.com/smokingcow/trading-agent`, Robinhood connector `63c68dd2-11bb-4d4c-acaf-3f7e627ea45a` attached, `allowed_tools: [Bash, Read, Write, Edit, Glob, Grep, WebSearch, PushNotification]`):
 
-7. Not yet created: the 3 production `RemoteTrigger` routines themselves. All prerequisites (3, 4, 5 above) are now resolved — this is the only remaining blocker. Model default for these per this doc's "Runtime" table: `claude-opus-4-8`. Repo to clone: `https://github.com/smokingcow/trading-agent`. Robinhood connector to attach: `connector_uuid: 63c68dd2-11bb-4d4c-acaf-3f7e627ea45a`, `name: Robinhood`, `url: https://agent.robinhood.com/mcp/trading`. Run times (UTC, per the "Run times" table above): `14:00`, `17:00`, `19:15`, weekdays. **The actual runtime prompt/instructions for these routines have not been drafted yet** — this is real-money, fully-autonomous, no-per-trade-confirmation execution, so the full prompt (screener → fundamentals/earnings/news attribution → buy filter → ranking → position sizing → order placement → ledger write → reconciliation → notification, per "Next step" below) should be drafted and reviewed before any routine goes live, not improvised inline at routine-creation time.
+     | Routine | ID | Cron (UTC) |
+     |---|---|---|
+     | Run 1 — 9:00 AM CT | `trig_01P9bwD1b1vw8CNLvUR24cHG` | `0 14 * * 1-5` |
+     | Run 2 — 12:00 PM CT | `trig_017YRHR7p1qFgkjY85ZqK9Py` | `0 17 * * 1-5` |
+     | Run 3 — 2:15 PM CT | `trig_01456i7e7s9sM2na3e6KnTao` | `15 19 * * 1-5` |
+
+   - Each routine's kickoff message just tells the agent to read and follow `AGENT_PROMPT.md` from Step 0 — the actual trading logic lives in that file, not duplicated across the 3 routine configs, so strategy changes only require editing and pushing `AGENT_PROMPT.md`, not updating all 3 routines via `RemoteTrigger update`.
+   - Two throwaway one-shot test routines also exist from earlier in this build (GitLab attempt, GitHub clone test, wiring test) — all already fired, harmless, not cleaned up (`RemoteTrigger` can't delete; manual cleanup at https://claude.ai/code/routines if desired).
+
+**All blockers resolved. Status is now: live, monitoring only.** See "Open / not yet decided" below for what's still genuinely unaddressed (not blocking, but worth resolving soon).
 
 ## Open / not yet decided (resolve before or during build)
 
@@ -114,4 +126,8 @@ Live capital + full autonomy + zero trial period is the single riskiest combinat
 
 ## Next step
 
-Build the agent/loop against this spec: screener → fundamentals/earnings/news attribution → buy filter → ranking → position sizing → order placement → ledger write → reconciliation → notification. Confirm scheduling mechanism and ledger schema first.
+Build is complete and the loop is live (see Progress log above). Remaining work is monitoring and the still-open items above, not construction:
+
+- Watch the first several live runs closely — `run-log.md` and push notifications are the fast signal; the live Robinhood account is the authoritative one.
+- Resolve the "Open / not yet decided" items above, especially the review-cadence checkpoint (currently nothing forces a keep/kill/tune decision except the automatic -20% kill switch).
+- If the strategy needs to change, edit `AGENT_PROMPT.md` and push — no routine reconfiguration needed, every run reads it fresh.
