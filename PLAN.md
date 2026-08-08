@@ -1,6 +1,6 @@
 # Trading Agent — Dip-Buy Loop
 
-Status: **LIVE as of 2026-07-31.** All 3 scheduled routines are running with real money, fully autonomous. This file is the source of truth for the strategy design; `AGENT_PROMPT.md` is the source of truth for the runtime logic the loop actually executes. Build against these — don't re-derive from scratch in a new session. If something needs to stop immediately, create a `PAUSE` file in the repo root and push it (see AGENT_PROMPT.md Step 0) — it's checked at the start of every run, not instantly.
+Status: **LIVE as of 2026-07-31; strategy and persistence revised 2026-08-08.** All 3 scheduled routines are running with real money, fully autonomous. Note: runs currently **cannot persist files** (read-only repo scope — see `LEDGER_BUG.md`); the loop is self-healing around this but each run's reasoning is lost until it's fixed. This file is the source of truth for the strategy design; `AGENT_PROMPT.md` is the source of truth for the runtime logic the loop actually executes. Build against these — don't re-derive from scratch in a new session. If something needs to stop immediately, create a `PAUSE` file in the repo root and push it (see AGENT_PROMPT.md Step 0) — it's checked at the start of every run, not instantly.
 
 ## Goal
 
@@ -106,13 +106,32 @@ Live capital + full autonomy + zero trial period is the single riskiest combinat
 
 **All blockers resolved. Status is now: live, monitoring only.** See "Open / not yet decided" below for what's still genuinely unaddressed (not blocking, but worth resolving soon).
 
-## Open / not yet decided (resolve before or during build)
+## Progress log (2026-08-08) — first strategy review
 
-- Ledger file format/schema (columns: date, ticker, action, price, qty, reason, dip-attribution research summary, P&L, running total) — schema agreed above, file not yet created.
-- Wash-sale rule implications (tax) — not addressed yet, informational only so far.
-- Whether "1 per sector" uses Robinhood's `sector` fundamental field directly (seen in get_equity_fundamentals) — confirm mapping.
-- Retry/error handling if a Robinhood MCP call fails mid-run (e.g., order placed but ledger write fails) — needs an explicit reconciliation step given "Robinhood account is authoritative."
-- Review cadence for the strategy itself — e.g., a fixed checkpoint (30 days or N trades) to decide keep/kill/tune, separate from the automatic -20% kill switch.
+**The loop logged nothing for its first 8 days.** 11 real fills executed while `ledger.md` and `run-log.md` stayed empty. Root cause: the routines hold **read-only** repo scope (`sources.git_repository` grants a clone, not push), so every Step 9 push was rejected at the agent proxy — and Step 9's old "don't treat a failed push as fatal" wording swallowed it silently on all ~24 runs. Full write-up in **`LEDGER_BUG.md`**.
+
+Fixed by making persistence defensive rather than assumed: the ledger is now *rebuilt from Robinhood order history* every run (Step 1), pushes are *verified* by comparing local and remote hashes rather than trusting the exit code, and failure is escalated loudly into the push notification with the run's reasoning carried inline (Step 9). Historical rows have been backfilled from broker fill records; the dip-attribution reasoning for those trades is permanently lost and was deliberately **not** reconstructed.
+
+**Still requires user action:** restoring real push access needs the routines recreated via the `RemoteTrigger` HTTP API with push-scoped repo access — `update_trigger` cannot modify `sources`. Until then each run's reasoning is lost, which is what keeps the strategy unfalsifiable.
+
+**Strategy research** captured in `STRATEGY_RESEARCH.md` and `STRATEGY_RESEARCH_2.md`. Headline findings:
+- **Options are not viable at this account size** — the agentic account has no options approval, and at $2K the collateral math for cash-secured puts (~$6K/contract) and covered calls (100 shares) doesn't work regardless. Revisit at $20K+.
+- **TP/SL tuning does not create edge.** Under a random walk every TP/SL configuration has EV exactly zero; the ratio only trades win rate against win size. All negative expectancy comes from **slippage**. A proposed change to +8%/-7% was derived, tested, found to be *worse* than the status quo, and reverted before going live — see the callout box in `AGENT_PROMPT.md`.
+- The real lever is **friction and gap risk**, which is what the new earnings/wash-sale/spread/trend gates target.
+- **Sample size is the binding constraint**: 92-737 closed trades are needed to distinguish a real edge from luck. There are 3.
+
+**Buy-filter changes now live** (all narrow the universe; none widen it): earnings-date exclusion (14 days), wash-sale guard (30 days), bid-ask spread cap (1.0%), and a 200-day EMA trend filter.
+
+## Open / not yet decided
+
+- ~~Ledger file format/schema~~ — **DONE.** Created, backfilled, and extended with an `Attribution Correct?` column so win rate can be measured by classification type.
+- ~~Wash-sale rule implications (tax)~~ — **DONE.** Now an enforced gate (judgment-call #11); EIX and PBF are currently excluded.
+- ~~Whether "1 per sector" uses Robinhood's `sector` fundamental field~~ — **DONE.** Confirmed, judgment-call #9.
+- ~~Retry/error handling if a call fails mid-run~~ — **DONE.** Step 1 now rebuilds from the authoritative account every run, so a mid-run failure self-heals.
+- **Backtest harness — the top open item.** Nothing in this project can currently distinguish a working strategy from a lucky one, and no parameter should be tuned until it can. Build over `get_equity_historicals`. Every strategy candidate below is gated on this.
+- Restore push access to the routines (see above) — without it the decision log is lost every run.
+- Strategy candidates to evaluate *once the harness exists*, in evidence order: post-earnings announcement drift, 52-week-high momentum, quality/gross-profitability gating. See `STRATEGY_RESEARCH_2.md` §3.
+- Review cadence for the strategy itself — a fixed checkpoint (30 days or N trades) to decide keep/kill/tune, separate from the automatic -20% kill switch. **Still unresolved.**
 
 ## Reference: tools used in the prototype session
 

@@ -1,6 +1,57 @@
 # Trading Ledger
 
-Source of truth is the live Robinhood account (positions + orders). This ledger is a human-readable log reconciled against that account at the start of every run — see PLAN.md "Source of truth".
+Source of truth is the live Robinhood account (positions + orders). This ledger is a human-readable log **rebuilt from Robinhood order history at the start of every run** — see `AGENT_PROMPT.md` Step 1. It is a derived artifact, not primary state: if it is ever lost, truncated, or fails to push, the next run reconstructs it. Never hand-maintain it in a way that conflicts with the account.
 
-| Date | Ticker | Action | Price | Qty | Reason | Dip-Attribution Summary | P&L | Running Total |
-|---|---|---|---|---|---|---|---|---|
+Columns: Date | Ticker | Action | Price | Qty | Reason | Dip-Attribution Summary | P&L | Running Total | Attribution Correct?
+
+`Attribution Correct?` is filled in on SELL rows only — it scores whether the original buy thesis proved right (`YES` = exited on take-profit, thesis held; `NO` = exited on stop-loss, thesis failed; `TIMEOUT` = force-closed at max hold, thesis neither confirmed nor refuted). This column exists so win rate can be measured *by classification type*, which is what makes the strategy falsifiable over time.
+
+---
+
+## Backfill note (2026-08-08)
+
+Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_orders`** after discovering that no run had ever successfully written to this file (see `LEDGER_BUG.md` for the root cause). Prices, quantities, dates and P&L are exact — they come from the broker's own fill records.
+
+**The Dip-Attribution Summary for those rows is permanently lost.** Each run computed a thesis and then discarded it when the push failed. It is not recoverable from any source, and it has been left blank rather than reconstructed — inventing plausible-sounding rationales after seeing the outcomes would poison the only dataset this strategy has. Treat the pre-2026-08-08 rows as price/P&L data only, with no usable signal about *why* each trade was taken.
+
+---
+
+| Date | Ticker | Action | Price | Qty | Reason | Dip-Attribution Summary | P&L | Running Total | Attribution Correct? |
+|---|---|---|---|---|---|---|---|---|---|
+| 2026-07-31 | EIX | BUY | $75.6900 | 5 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$0.00 | — |
+| 2026-07-31 | BTSG | BUY | $60.7799 | 6 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$0.00 | — |
+| 2026-07-31 | NXT | BUY | $89.7632 | 4 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$0.00 | — |
+| 2026-08-03 | FTI | BUY | $69.5699 | 6 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$0.00 | — |
+| 2026-08-03 | PBF | BUY | $67.5399 | 6 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$0.00 | — |
+| 2026-08-04 | NXT | SELL | $96.1165 | 4 | Take-profit (limit order) | *(original thesis not recorded)* | **+$25.41 (+7.08%)** | +$25.41 | YES |
+| 2026-08-05 | EIX | SELL | $68.5601 | 5 | Stop-loss (market order) | *(original thesis not recorded)* | **-$35.65 (-9.42%)** | -$10.24 | NO |
+| 2026-08-06 | PBF | SELL | $61.0501 | 6 | Stop-loss (market order) | *(original thesis not recorded)* | **-$38.94 (-9.61%)** | -$49.18 | NO |
+| 2026-08-06 | ACIW | BUY | $54.6889 | 7 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$49.18 | — |
+| 2026-08-06 | XYZ | BUY | $79.0299 | 5 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$49.18 | — |
+| 2026-08-07 | MNST | BUY | $90.4400 | 4 | Backfilled from broker fill record | *(not recorded — lost to Step 9 push failure)* | — | -$49.18 | — |
+
+---
+
+## Position and P&L summary as of 2026-08-08
+
+**Realized:** 3 closed round-trips — 1 win, 2 losses. Total realized P&L **-$49.18**.
+
+| Ticker | Entry | Exit | Held | Return | Exit trigger |
+|---|---|---|---|---|---|
+| NXT | $89.7632 | $96.1165 | 4 days | **+7.08%** | Take-profit |
+| EIX | $75.6900 | $68.5601 | 5 days | **-9.42%** | Stop-loss |
+| PBF | $67.5399 | $61.0501 | 3 days | **-9.61%** | Stop-loss |
+
+**Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3).
+
+**Open positions:** 5, cost basis $1,921.83, fully deployed with $29 cash.
+
+| Ticker | Qty | Avg cost | Held since |
+|---|---|---|---|
+| BTSG | 6 | $60.78 | 2026-07-31 |
+| FTI | 6 | $69.57 | 2026-08-03 |
+| ACIW | 7 | $54.69 | 2026-08-06 |
+| XYZ | 5 | $79.03 | 2026-08-06 |
+| MNST | 4 | $90.44 | 2026-08-07 |
+
+**Account total:** $1,951.99 vs $2,000.00 starting capital = **-2.40%**. Kill-switch threshold is $1,600 (-20%); not close.
