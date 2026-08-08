@@ -12,7 +12,7 @@
 |---|---|---|---|---|
 | 1 | Position size | **20%** of current total capital | Lower bound → more diversification headroom | Locked: 20-25% |
 | 2 | Take-profit | **+6%** | See "Why TP/SL were left alone" below | Locked: +5-8% |
-| 3 | Stop-loss | **-7%** trigger (≈ **-8.5%** realized after slippage) | See below | Locked: -7% to -10% |
+| 3 | Stop-loss | **-8%** trigger (≈ **-9.5%** realized after slippage) | Unchanged — see below | Locked: -7% to -10% |
 | 4 | Daily circuit breaker | **6%** of total capital | Middle of range | Locked: 5-8% |
 | 5 | Max hold period | **12** trading days | Middle of range | Locked: 10-15 days |
 | 6 | New positions per run | **At most 1** | Simpler, more auditable | Not specified in PLAN.md |
@@ -40,7 +40,18 @@ Modelling it as a random walk (P(hit +a before −b) ≈ b/(a+b)):
 
 The conclusion that follows: **the lever is friction and gap risk, not the profit/loss ratio.** That is why this revision adds the earnings exclusion, spread cap, and trend filter, and leaves TP/SL alone. Tuning TP/SL is a legitimate question — but it should be settled by the backtest harness against real price paths, not by an argument from a formula that assumes away the dependency. Do not re-tune these numbers without backtest evidence.
 
-The stop trigger is set at **-7%** rather than -8% for one narrow, real reason: observed market-order slippage on the two 2026-08 stop-outs was 1.5-1.8% *past* the trigger (EIX filled -9.42% against a -8% trigger; PBF -9.61%). A -7% trigger lands the realized loss near -8.5%, closer to the intended -8%. This is slippage compensation, not payoff engineering.
+A second revision proposed tightening the stop from -8% to -7% as "slippage compensation" — the reasoning being that since market exits fill 1.5-1.8% past the trigger (EIX filled -9.42% against a -8% trigger; PBF -9.61%), a -7% trigger would land the realized loss nearer the intended -8%. **That was the same error in smaller form, and it was also reverted.** Running it through `backtest.py` on synthetic data shows why:
+
+| Stop (TP +6% fixed) | Trades | Stop-outs | EV/trade @1.5% slippage |
+|---|---|---|---|
+| -7% | 5063 | 2141 | -0.452% |
+| **-8% (live)** | 4924 | 1849 | **-0.349%** |
+| -9% | 4780 | 1576 | **-0.247%** |
+| -10% | 4655 | 1366 | -0.277% |
+
+Tightening the stop *raises* the number of stop-outs, so slippage gets paid more often, and EV gets worse. The trigger controls how *often* you pay the friction, not just how much you lose when you do. Both proposed "improvements" failed for the same underlying reason, which is the point of having a harness.
+
+The table hints that a **-9%** stop may be better than the live -8%. That is a synthetic-data result on a driftless walk and is **not** authorization to change a live-money parameter — it needs confirmation against real bars for the actual scan universe. Left at -8% pending that. Run `python3 backtest.py --data data/ --sweep` once real data is dumped, and only move it if the improvement is statistically significant.
 
 ---
 
@@ -77,7 +88,7 @@ Record `Reconciliation OK? = YES` (clean) or `YES (rebuilt, N rows differed)`.
 
 For every open position:
 
-1. **Stop-loss:** if current price ≤ buy price × **0.93** (-7% trigger, judgment-call #3), sell immediately via **market order**. No exceptions, no judgment override. Expect the fill to land 1-2% below the trigger — that is known, measured, and accepted.
+1. **Stop-loss:** if current price ≤ buy price × **0.92** (-8% trigger, judgment-call #3), sell immediately via **market order**. No exceptions, no judgment override. Expect the fill to land 1-2% below the trigger — that is known, measured, and accepted.
 2. **Take-profit:** if current price ≥ buy price × **1.06** (+6%, judgment-call #2), sell via **limit order** near current price.
 3. **Max hold:** if neither triggered and the position has been held ≥ **12 trading days**, force-close at market.
 4. For every exit, record it in `ledger.md`: Date, Ticker, `Action = SELL`, Price, Qty, Reason (which trigger fired), Dip-Attribution Summary (carried forward from the buy row), P&L, Running Total, and **`Attribution Correct?`** — `YES` if this exited on take-profit, `NO` if on stop-loss, `TIMEOUT` if force-closed. This column is what makes the buy filter measurable; never leave it blank on a SELL row.
