@@ -28,11 +28,17 @@ Bars flagged interpolated=true are dropped: they are server-side gap fill
 and carry no traded prices, so keeping them would invent highs and lows that
 fire phantom stops and targets.
 
+Put a benchmark (SPY by default) in the same directory. Without one, results
+are RAW returns, which over a rising market credit market beta as though it
+were strategy edge - the exact mistake that hid the live loop's 6.7pp
+shortfall behind a "-2.4%" that looked mild.
+
 Usage:
     python3 backtest.py --self-test
-    python3 backtest.py --data data/
+    python3 backtest.py --data data/                    # excess vs SPY
     python3 backtest.py --data data/ --sweep
-    python3 backtest.py --data data/ --trend-filter --tp 6 --sl 7
+    python3 backtest.py --data data/ --compare-stops    # absolute vs relative
+    python3 backtest.py --data data/ --regime-gate --trend-filter
 
 No third-party dependencies - it runs anywhere the loop runs.
 """
@@ -182,7 +188,9 @@ def ema(values, period):
 # --------------------------------------------------------------------------
 
 def simulate(bars, tp_pct, sl_pct, max_hold, slippage_pct, dip_threshold,
-             use_trend_filter=False, ema_period=EMA_PERIOD):
+             use_trend_filter=False, ema_period=EMA_PERIOD,
+             benchmark=None, stop_mode="absolute", stop_floor_pct=15.0,
+             regime_gate=False):
     """
     Replay the loop's entry/exit rules over one symbol's bars.
 
@@ -194,12 +202,44 @@ def simulate(bars, tp_pct, sl_pct, max_hold, slippage_pct, dip_threshold,
     stop is assumed to fill first. Daily bars cannot resolve intrabar
     ordering, so the harness takes the pessimistic branch rather than
     flattering the strategy.
+
+    `benchmark` is a {date: close} map (normally SPY). When supplied, each
+    trade also carries the benchmark's return over the IDENTICAL window and
+    the excess of one over the other. Excess is the number that matters:
+    raw returns over a rising market credit beta as though it were edge.
+
+    `stop_mode` selects how the stop trigger is computed:
+      "absolute" - fixed -sl_pct from entry. This is what runs live.
+      "relative" - the trigger widens by however much the benchmark has
+                   fallen since entry, so a market-wide drop does not
+                   liquidate the position. Unbounded.
+      "floored"  - as "relative", but never wider than -stop_floor_pct.
+
+    The relative modes exist to be TESTED, not because they are endorsed.
+    See the callout in AGENT_PROMPT.md: five correlated positions make a
+    widened stop a portfolio-level risk, not a per-position one.
     """
     closes = [b["close"] for b in bars]
     trend = ema(closes, ema_period) if use_trend_filter else None
 
+    bench_trend = None
+    if regime_gate:
+        if not benchmark:
+            raise ValueError("regime_gate=True requires a benchmark series")
+        # EMA over the benchmark, aligned to THIS symbol's trading dates so
+        # the lookup below cannot drift out of sync.
+        bench_closes = [benchmark.get(b["date"]) for b in bars]
+        usable = [c for c in bench_closes if c is not None]
+        if len(usable) >= ema_period:
+            filled, last = [], None
+            for c in bench_closes:
+                last = c if c is not None else last
+                filled.append(last if last is not None else usable[0])
+            bench_trend = ema(filled, ema_period)
+
     trades = []
-    i = max(1, ema_period if use_trend_filter else 1)
+    warmup = ema_period if (use_trend_filter or regime_gate) else 1
+    i = max(1, warmup)
     n = len(bars)
 
     while i < n - 1:
@@ -210,14 +250,33 @@ def simulate(bars, tp_pct, sl_pct, max_hold, slippage_pct, dip_threshold,
         if use_trend_filter and (trend[i] is None or closes[i] < trend[i]):
             i += 1
             continue
+        if regime_gate:
+            bench_now = benchmark.get(bars[i]["date"])
+            if bench_trend is None or bench_trend[i] is None or bench_now is None \
+                    or bench_now < bench_trend[i]:
+                i += 1
+                continue
 
         entry_idx = i + 1
         entry = bars[entry_idx]["open"]
         tp_price = entry * (1 + tp_pct / 100.0)
-        sl_price = entry * (1 - sl_pct / 100.0)
+        bench_entry = benchmark.get(bars[entry_idx]["date"]) if benchmark else None
 
         exit_price = exit_idx = reason = None
         for j in range(entry_idx, min(entry_idx + max_hold, n)):
+            # Recompute the stop each bar - under the relative modes it moves
+            # with the benchmark.
+            effective_sl = sl_pct
+            if stop_mode != "absolute" and bench_entry:
+                bench_now = benchmark.get(bars[j]["date"])
+                if bench_now:
+                    bench_move = (bench_now - bench_entry) / bench_entry * 100.0
+                    if bench_move < 0:
+                        effective_sl = sl_pct - bench_move  # widen by the drop
+                    if stop_mode == "floored":
+                        effective_sl = min(effective_sl, stop_floor_pct)
+            sl_price = entry * (1 - effective_sl / 100.0)
+
             if bars[j]["low"] <= sl_price:
                 # Market exit slips past the trigger, as measured live.
                 exit_price = sl_price * (1 - slippage_pct / 100.0)
@@ -234,15 +293,25 @@ def simulate(bars, tp_pct, sl_pct, max_hold, slippage_pct, dip_threshold,
             exit_price = bars[exit_idx]["close"]
             reason = "timeout"
 
-        trades.append({
+        ret = (exit_price - entry) / entry * 100.0
+        trade = {
             "entry_date": bars[entry_idx]["date"],
             "exit_date": bars[exit_idx]["date"],
             "entry": entry,
             "exit": exit_price,
-            "return_pct": (exit_price - entry) / entry * 100.0,
+            "return_pct": ret,
             "held_bars": exit_idx - entry_idx,
             "reason": reason,
-        })
+            "bench_pct": None,
+            "excess_pct": None,
+        }
+        if benchmark:
+            bench_exit = benchmark.get(bars[exit_idx]["date"])
+            if bench_entry and bench_exit:
+                bench_ret = (bench_exit - bench_entry) / bench_entry * 100.0
+                trade["bench_pct"] = bench_ret
+                trade["excess_pct"] = ret - bench_ret
+        trades.append(trade)
         i = exit_idx + 1
 
     return trades
@@ -264,7 +333,7 @@ def summarize(trades):
         max_dd = min(max_dd, cumulative - peak)
         equity = cumulative
 
-    return {
+    out = {
         "n": len(trades),
         "win_rate": len(wins) / len(trades) * 100.0,
         "ev": statistics.fmean(rets),
@@ -276,22 +345,36 @@ def summarize(trades):
         "targets": sum(1 for t in trades if t["reason"] == "target"),
         "timeouts": sum(1 for t in trades if t["reason"] == "timeout"),
         "avg_hold": statistics.fmean([t["held_bars"] for t in trades]),
+        "excess_n": 0, "excess_ev": None, "excess_stdev": 0.0,
+        "excess_win_rate": None, "excess_total": None,
     }
 
+    # Excess over the benchmark, where available. This is the headline number:
+    # raw returns measured over a rising market credit beta as edge.
+    exc = [t["excess_pct"] for t in trades if t.get("excess_pct") is not None]
+    if exc:
+        out["excess_n"] = len(exc)
+        out["excess_ev"] = statistics.fmean(exc)
+        out["excess_stdev"] = statistics.stdev(exc) if len(exc) > 1 else 0.0
+        out["excess_win_rate"] = sum(1 for e in exc if e > 0) / len(exc) * 100.0
+        out["excess_total"] = sum(exc)
+    return out
 
-def significance(stats):
+
+def significance(stats, prefix=""):
     """
-    Is mean return distinguishable from zero? Reports a t-statistic and the
+    Is the mean distinguishable from zero? Returns a t-statistic and the
     trade count needed to resolve an edge of the observed size.
 
-    This is the number that matters most: a good-looking EV over 20 trades
-    is noise, and the harness should say so out loud.
+    Pass prefix="excess_" to test excess returns instead of raw. A
+    good-looking EV over 20 trades is noise, and the harness should say so.
     """
-    n, sd, ev = stats["n"], stats["stdev"], stats["ev"]
-    if n < 2 or sd == 0:
+    n = stats["excess_n"] if prefix else stats["n"]
+    sd = stats[prefix + "stdev"]
+    ev = stats[prefix + "ev"]
+    if not n or n < 2 or not sd or ev is None:
         return None, None
     t_stat = ev / (sd / math.sqrt(n))
-    # Trades needed for |t| = 1.96 at the observed effect size.
     needed = math.ceil((1.96 * sd / ev) ** 2) if ev != 0 else None
     return t_stat, needed
 
@@ -317,17 +400,30 @@ def print_report(label, stats, trades):
     print(f"  Exits           : {stats['targets']} target / "
           f"{stats['stops']} stop / {stats['timeouts']} timeout")
 
-    t_stat, needed = significance(stats)
+    if stats["excess_ev"] is None:
+        print("  ! No benchmark loaded - these are RAW returns. Over a rising")
+        print("    market they credit beta as edge. Supply --benchmark.")
+    else:
+        print(f"  --- vs benchmark ({stats['excess_n']} trades matched) ---")
+        print(f"  Excess / trade  : {stats['excess_ev']:+.3f} pp   <-- headline")
+        print(f"  Excess win rate : {stats['excess_win_rate']:.1f}%")
+        print(f"  Sum of excess   : {stats['excess_total']:+.1f} pp")
+
+    # Significance is reported on excess when a benchmark exists, raw otherwise.
+    prefix = "excess_" if stats["excess_ev"] is not None else ""
+    t_stat, needed = significance(stats, prefix)
     if t_stat is None:
         return
+    basis = "excess" if prefix else "raw"
     verdict = "SIGNIFICANT" if abs(t_stat) >= 1.96 else "NOT significant"
-    print(f"  t-statistic     : {t_stat:+.2f}  ->  {verdict} at 95%")
+    print(f"  t-statistic     : {t_stat:+.2f} ({basis})  ->  {verdict} at 95%")
     if abs(t_stat) < 1.96 and needed:
+        have = stats["excess_n"] if prefix else stats["n"]
         print(f"  Trades needed   : ~{needed} to resolve an edge this size "
-              f"(have {stats['n']})")
+              f"(have {have})")
 
 
-def run_sweep(data, args):
+def run_sweep(data, args, benchmark=None):
     """
     Grid over TP/SL inside PLAN.md's locked ranges (+5-8%, -7 to -10%).
 
@@ -337,6 +433,8 @@ def run_sweep(data, args):
     print("\n=== TP/SL sweep (locked ranges) ===")
     print(f"  slippage={args.slippage}%  dip<={args.dip}%  "
           f"max_hold={args.max_hold}  trend_filter={args.trend_filter}\n")
+    basis = "excess" if benchmark else "RAW"
+    print(f"  EV column basis: {basis}")
     print(f"  {'TP':>5} {'SL':>5} | {'trades':>7} {'win%':>7} "
           f"{'EV/trade':>10} {'total':>9} {'t':>7}")
     print("  " + "-" * 56)
@@ -347,19 +445,27 @@ def run_sweep(data, args):
             trades = []
             for bars in data.values():
                 trades += simulate(bars, tp, sl, args.max_hold, args.slippage,
-                                   args.dip, args.trend_filter)
+                                   args.dip, args.trend_filter,
+                                   benchmark=benchmark, stop_mode=args.stop_mode,
+                                   stop_floor_pct=args.stop_floor,
+                                   regime_gate=args.regime_gate)
             stats = summarize(trades)
-            t_stat, _ = significance(stats)
+            prefix = "excess_" if stats["excess_ev"] is not None else ""
+            t_stat, _ = significance(stats, prefix)
             rows.append((tp, sl, stats, t_stat))
             t_txt = f"{t_stat:+.2f}" if t_stat is not None else "  n/a"
+            ev = stats["excess_ev"] if stats["excess_ev"] is not None else stats["ev"]
+            tot = stats["excess_total"] if stats["excess_total"] is not None else stats["total"]
             print(f"  {tp:>4.0f}% {sl:>4.0f}% | {stats['n']:>7} "
-                  f"{stats['win_rate']:>6.1f}% {stats['ev']:>+9.3f}% "
-                  f"{stats['total']:>+8.1f}% {t_txt:>7}")
+                  f"{stats['win_rate']:>6.1f}% {ev:>+9.3f}% "
+                  f"{tot:>+8.1f}% {t_txt:>7}")
 
-    best = max((r for r in rows if r[2]["n"] > 0), key=lambda r: r[2]["ev"], default=None)
+    def _ev(s):
+        return s["excess_ev"] if s["excess_ev"] is not None else s["ev"]
+    best = max((r for r in rows if r[2]["n"] > 0), key=lambda r: _ev(r[2]), default=None)
     if best:
         tp, sl, stats, t_stat = best
-        print(f"\n  Best EV: TP +{tp:.0f}% / SL -{sl:.0f}% at {stats['ev']:+.3f}%/trade")
+        print(f"\n  Best EV: TP +{tp:.0f}% / SL -{sl:.0f}% at {_ev(stats):+.3f}/trade")
         if t_stat is None or abs(t_stat) < 1.96:
             print("  ...but it is NOT statistically significant. Treat this as noise,")
             print("  not a parameter recommendation. Picking the best cell of a grid")
@@ -485,6 +591,19 @@ def main():
     parser.add_argument("--trend-filter", action="store_true",
                         help="Only enter when price is above its 200-day EMA")
     parser.add_argument("--sweep", action="store_true", help="Grid over the locked TP/SL ranges")
+    parser.add_argument("--benchmark", default="SPY",
+                        help="Benchmark symbol for excess returns (default SPY). "
+                             "Must be present in --data. Use '' to disable.")
+    parser.add_argument("--stop-mode", choices=("absolute", "relative", "floored"),
+                        default="absolute",
+                        help="absolute (live default) | relative (widens with a "
+                             "falling market, unbounded) | floored (relative, capped)")
+    parser.add_argument("--stop-floor", type=float, default=15.0,
+                        help="Widest stop under --stop-mode floored (default 15%%)")
+    parser.add_argument("--regime-gate", action="store_true",
+                        help="No entries when the benchmark is below its 200-day EMA")
+    parser.add_argument("--compare-stops", action="store_true",
+                        help="Run all three stop modes side by side")
     parser.add_argument("--self-test", action="store_true", help="Validate the harness itself")
     args = parser.parse_args()
 
@@ -496,28 +615,69 @@ def main():
     data = load_data(args.data)
     if not data:
         sys.exit("No usable symbol data loaded.")
+
+    benchmark = None
+    if args.benchmark:
+        bench_sym = args.benchmark.upper()
+        bench_bars = data.pop(bench_sym, None)
+        if bench_bars:
+            benchmark = {b["date"]: b["close"] for b in bench_bars}
+            print(f"Benchmark: {bench_sym} ({len(benchmark)} bars) - "
+                  f"reporting EXCESS returns")
+        else:
+            print(f"! Benchmark {bench_sym} not found in --data. Returns will be "
+                  f"RAW, which over a rising market credits beta as edge.",
+                  file=sys.stderr)
+    if not data:
+        sys.exit("No symbols left after removing the benchmark.")
+    if args.regime_gate and not benchmark:
+        sys.exit("--regime-gate requires a benchmark series.")
+
     total_bars = sum(len(b) for b in data.values())
     print(f"Loaded {len(data)} symbols, {total_bars} bars: {', '.join(sorted(data))}")
 
     if args.sweep:
-        run_sweep(data, args)
+        run_sweep(data, args, benchmark)
         return 0
 
-    trades = []
-    for bars in data.values():
-        trades += simulate(bars, args.tp, args.sl, args.max_hold,
-                           args.slippage, args.dip, args.trend_filter)
-    label = (f"TP +{args.tp:.0f}% / SL -{args.sl:.0f}% / hold {args.max_hold} / "
-             f"slip {args.slippage}%" + (" / trend filter" if args.trend_filter else ""))
-    print_report(label, summarize(trades), trades)
-
-    # The trend filter is a live gate, so always show its effect side by side.
-    if not args.trend_filter:
-        filtered = []
+    def run(stop_mode, trend, regime):
+        trades = []
         for bars in data.values():
-            filtered += simulate(bars, args.tp, args.sl, args.max_hold,
-                                 args.slippage, args.dip, True)
-        print_report(label + " + 200-EMA trend filter", summarize(filtered), filtered)
+            trades += simulate(bars, args.tp, args.sl, args.max_hold,
+                               args.slippage, args.dip, trend,
+                               benchmark=benchmark, stop_mode=stop_mode,
+                               stop_floor_pct=args.stop_floor, regime_gate=regime)
+        return trades
+
+    base = (f"TP +{args.tp:.0f}% / SL -{args.sl:.0f}% / hold {args.max_hold} / "
+            f"slip {args.slippage}%")
+
+    if args.compare_stops:
+        # The live rule is "absolute". The other two are the market-relative
+        # proposal; compare EV *and* worst drawdown before trusting either.
+        for mode in ("absolute", "relative", "floored"):
+            suffix = f" (floor -{args.stop_floor:.0f}%)" if mode == "floored" else ""
+            print_report(f"{base} / stop={mode}{suffix}",
+                         summarize(run(mode, args.trend_filter, args.regime_gate)), None)
+        print("\n  Compare max drawdown, not just EV: a relative stop concentrates")
+        print("  losses into correlated market-wide events across all positions.")
+        return 0
+
+    label = base + f" / stop={args.stop_mode}"
+    if args.trend_filter:
+        label += " / trend filter"
+    if args.regime_gate:
+        label += " / regime gate"
+    print_report(label, summarize(run(args.stop_mode, args.trend_filter,
+                                      args.regime_gate)), None)
+
+    # Both live gates are restrictive, so always show what they cost/save.
+    if not args.trend_filter:
+        print_report(label + " + 200-EMA trend filter",
+                     summarize(run(args.stop_mode, True, args.regime_gate)), None)
+    if benchmark and not args.regime_gate:
+        print_report(label + " + market-regime gate",
+                     summarize(run(args.stop_mode, args.trend_filter, True)), None)
 
     return 0
 
