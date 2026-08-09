@@ -23,6 +23,21 @@
 | 11 | **Wash-sale guard (NEW 2026-08-08)** | Skip any symbol sold at a loss in the last **30 calendar days** | Protects realized losses from disallowance | New |
 | 12 | **Max bid-ask spread (NEW 2026-08-08)** | Skip if spread > **1.0%** of mid | Reduces entry friction | New |
 | 13 | **Trend filter (NEW 2026-08-08)** | Require price **above the 200-day EMA** | Buy dips *in uptrends*, not falling knives | New |
+| 14 | **Benchmark (NEW 2026-08-09)** | **SPY**, recorded every run and per trade | Measurement only — separates skill from beta | New |
+| 15 | **Market-regime gate (NEW 2026-08-09)** | No new buys when **SPY is below its 200-day EMA** | Prevents dip-buying into a downtrend | New; restrictive only |
+| 16 | **Underperformance tripwire (NEW 2026-08-09)** | Flag for review if trailing-30-day return trails SPY by **>10pp** | Review flag, **not** an auto-pause | New; notification only |
+
+### What was deliberately NOT changed: the market-relative stop-loss
+
+A market-relative (beta-adjusted) stop was proposed — don't liquidate on a drop the whole market shared. The reasoning is sound and identifies a genuine inconsistency: entry logic is relative (buy macro dips, skip company-specific ones) while exit logic is absolute, so the loop can stop out of exactly the selloff it bet would revert.
+
+**It is still not implemented, on purpose.** Three reasons:
+
+1. **The portfolio math.** Five positions at 20% each don't fail independently — a market-wide drop breaches them together. A relative stop floored at -15% turns a single correlated event from **-9.5%** of the account into **-16.5%**, most of the way to the -20% kill switch in one week.
+2. **Beta isn't 1.** These are small/mid caps. Assuming beta 1 under-protects exactly the names that move most, and correlations converge toward 1 in crashes — the estimate fails hardest when it matters.
+3. **Two previous "obviously correct" changes to these levels were both wrong when measured** (see above). Changing the only hard capital control on the strength of an argument is precisely the pattern that keeps failing here.
+
+The addressable root cause is handled at the **entry** instead, via judgment-call #15 — don't buy dips into a downtrend at all, rather than removing protection once already exposed. The relative stop is implemented in `backtest.py` as a testable variant (`--stop-mode relative|floored`) and should be evaluated against real bars covering a drawdown before it ever goes live.
 
 ### Why TP/SL were deliberately **not** changed on 2026-08-08
 
@@ -74,9 +89,18 @@ Per `PLAN.md`: **the Robinhood account is authoritative, not the ledger.** As of
 
 Record `Reconciliation OK? = YES` (clean) or `YES (rebuilt, N rows differed)`.
 
-## Step 2 — Compute total capital and check the kill switch
+## Step 2 — Compute total capital, benchmark it, check the kill switch
 
 1. Total capital = cash + market value of all open positions (from `get_portfolio`, post-reconciliation).
+
+**1a. Fetch the benchmark (judgment-call #14).** Call `get_equity_historicals(symbols=["SPY"], start_time="2026-07-30T00:00:00Z", interval="day")`. From it compute:
+   - `SPY_since_inception` = SPY return from the 2026-07-30 close (**741.69**, the loop's inception baseline) to the latest close.
+   - `portfolio_since_inception` = total capital vs **$2,000**.
+   - `relative` = portfolio return − SPY return, in percentage points.
+
+   Record all three in this run's `run-log.md` row. **A portfolio number without its benchmark is not interpretable** — "-2.4%" during a week SPY gained 4.26% is a 6.7pp shortfall, not a small loss. If the SPY fetch fails, log `benchmark unavailable` and continue; never block trading on it.
+
+**1b. Underperformance tripwire (judgment-call #16).** If the trailing 30-day portfolio return trails SPY's by more than **10 percentage points**, add a `⚠️ UNDERPERFORMANCE REVIEW` line to this run's notification with both figures. **This is a flag, not a halt** — do not set `PAUSE`, do not change any trading behavior. It exists because every other control in this loop is absolute and therefore blind to losing steadily to the market in a rally. Acting on it is the user's call.
 2. If total capital ≤ **$1,600** (80% of the $2,000 starting capital, judgment-call #8):
    - Write `PAUSE` to the repo root: `AUTO-PAUSED <UTC timestamp>: total capital $<X> is <Y>% below starting capital $2,000 (-20% kill switch triggered).`
    - Commit and push (Step 9 mechanics). **If the push fails, still send the notification** — the pause intent must reach the user even if the file doesn't persist.
@@ -91,7 +115,10 @@ For every open position:
 1. **Stop-loss:** if current price ≤ buy price × **0.92** (-8% trigger, judgment-call #3), sell immediately via **market order**. No exceptions, no judgment override. Expect the fill to land 1-2% below the trigger — that is known, measured, and accepted.
 2. **Take-profit:** if current price ≥ buy price × **1.06** (+6%, judgment-call #2), sell via **limit order** near current price.
 3. **Max hold:** if neither triggered and the position has been held ≥ **12 trading days**, force-close at market.
-4. For every exit, record it in `ledger.md`: Date, Ticker, `Action = SELL`, Price, Qty, Reason (which trigger fired), Dip-Attribution Summary (carried forward from the buy row), P&L, Running Total, and **`Attribution Correct?`** — `YES` if this exited on take-profit, `NO` if on stop-loss, `TIMEOUT` if force-closed. This column is what makes the buy filter measurable; never leave it blank on a SELL row.
+4. For every exit, record it in `ledger.md`: Date, Ticker, `Action = SELL`, Price, Qty, Reason (which trigger fired), Dip-Attribution Summary (carried forward from the buy row), P&L, Running Total, **`Attribution Correct?`**, **`SPY Over Hold`**, and **`Excess`**.
+   - `Attribution Correct?` — `YES` if exited on take-profit, `NO` if on stop-loss, `TIMEOUT` if force-closed. Never blank on a SELL row.
+   - `SPY Over Hold` — SPY's return between the **buy date's close and the sell date's close**, i.e. the identical window. Take it from the Step 1a historicals.
+   - `Excess` — trade return minus `SPY Over Hold`, in percentage points. **This is the number that says whether the trade was any good.** A +6% take-profit during a +8% market week is a loss in the only sense that matters, even though it books as a win.
 5. **Settlement:** a same-day exit's proceeds are not settled cash until T+1 — do not count them as buying power later in this same run.
 
 ## Step 4 — Daily circuit breaker
@@ -102,9 +129,15 @@ Sum today's realized P&L from the rebuilt ledger (today's date, `Action = SELL`)
 - Never blocks Step 3 exits.
 - If tripped, skip to Step 9.
 
-## Step 5 — Check settled buying power
+## Step 5 — Pre-buy gates: settled cash, then market regime
 
-Confirm **settled cash**, not total balance — cash account, T+1. If settled buying power is below 20% of current total capital, skip the new-buy steps this run and note it in `run-log.md`.
+**5a. Settled buying power.** Confirm **settled cash**, not total balance — cash account, T+1. If settled buying power is below 20% of current total capital, skip the new-buy steps this run and note it in `run-log.md`.
+
+**5b. Market-regime gate (judgment-call #15).** Call `get_equity_technical_indicators(symbol="SPY", type="ema", period=200, interval="day", output="latest")`. If SPY's current price is **below** its 200-day EMA, **make no new purchases this run.** Log `regime gate — no new buys (SPY below 200d EMA)` and skip to Step 9. Existing positions are unaffected: Step 3 exits always run regardless.
+
+*Rationale: dip-buying into a downtrend is the failure mode this strategy is most exposed to — a falling market keeps producing "dips" that keep falling, and the buy filter cannot tell a macro drawdown from an oversold bounce in real time. This is also the safe place to address the market-relative-stop problem: preventing the exposure beats removing the stop-loss protection after the fact. Restrictive only — it can never cause a purchase, only prevent one.*
+
+*If the indicator call fails, fall back to computing the 200-day EMA from the Step 1a SPY historicals (extend `start_time` far enough back). If neither is available, **skip new buys for the run** rather than trading blind, and note it.*
 
 ## Step 6 — Screen for dip candidates
 
@@ -157,7 +190,7 @@ Write a 2-4 sentence dip-attribution summary for every candidate you seriously e
 
 **Read this step carefully. Its previous version is why the loop logged nothing for its first 8 days.**
 
-1. Append one row to `run-log.md`: Timestamp (UTC, actual current time), Run #, Paused? = NO, Reconciliation OK?, Candidates Scanned, Action Taken, Notes. Add a **`Persisted?`** value to the Notes column — filled in at step 5 below.
+1. Append one row to `run-log.md`: Timestamp (UTC, actual current time), Run #, Paused? = NO, Reconciliation OK?, Candidates Scanned, Action Taken, **Portfolio %**, **SPY %**, **Relative (pp)** (all three from Step 1a, since inception), and Notes. Add a **`Persisted?`** value to the Notes column — filled in at step 5 below.
 2. Save any `ledger.md` edits.
 3. Set a git identity if none exists (`git config user.name` / `user.email` — check first, don't overwrite).
 4. `git add ledger.md run-log.md` (plus `PAUSE` if Step 2 created it) and commit with a short message summarizing the run.
@@ -175,7 +208,7 @@ Write a 2-4 sentence dip-attribution summary for every candidate you seriously e
    - Include the dip-attribution summary text **inline in the notification itself**. It is the only copy that will survive the container being reclaimed.
 
    Known cause as of 2026-08-08: the routines hold read-only repo scope and pushes are rejected at the agent proxy. Until that is fixed (see `LEDGER_BUG.md`), expect `Persisted? = NO` on every run and expect the notification to carry the reasoning.
-7. **Always send a `PushNotification`**, including "no action taken" runs. Summarize: paused/circuit-breaker/normal, what was scanned, what was bought or sold, current total capital, and persistence status. Silence must never mean "the loop didn't check."
+7. **Always send a `PushNotification`**, including "no action taken" runs. Summarize: paused/circuit-breaker/regime-gated/normal, what was scanned, what was bought or sold, current total capital **and how that compares to SPY since inception** (Step 1a), plus persistence status. Lead with `⚠️ PUSH FAILED` or `⚠️ UNDERPERFORMANCE REVIEW` if either applies. Silence must never mean "the loop didn't check."
 
 ## Step 10 — Exit
 
