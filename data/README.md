@@ -18,6 +18,18 @@ Then:
     python3 backtest.py --self-test        # validate the harness first
     python3 backtest.py --data data/       # baseline + trend-filter comparison
     python3 backtest.py --data data/ --sweep
+    python3 backtest.py --data data/ --compare-stops
+
+    python3 panel_study.py --self-test     # validate first, always
+    python3 panel_study.py --data data/    # which signals predict anything?
+
+Include SPY in the directory. Without a benchmark both tools report RAW
+returns, which over a rising market credit market beta as though it were
+strategy edge.
+
+Order of use: panel_study.py screens which signals predict forward returns
+at all; backtest.py then tests whether specific trading rules built on a
+surviving signal actually make money after friction.
 
 Aim for enough symbols and history to clear ~100 trades minimum; a few
 hundred is where the numbers start meaning something. See

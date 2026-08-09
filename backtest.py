@@ -92,6 +92,9 @@ def normalize_bars(raw):
             "high": _num(entry.get("high_price") or entry.get("high")),
             "low": _num(entry.get("low_price") or entry.get("low")),
             "close": _num(entry.get("close_price") or entry.get("close")),
+            # Carried for panel_study.py's rel_volume feature. Not used by the
+            # simulator, but dropping it here silently disabled that feature.
+            "volume": _num(entry.get("volume")) or 0.0,
         }
         # A bar missing any price, or with a non-positive price, cannot be
         # simulated against - drop it rather than silently trading on zeros.
