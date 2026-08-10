@@ -34,9 +34,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-08
+## Position and P&L summary as of 2026-08-10
 
-**Realized:** 3 closed round-trips — 1 win, 2 losses. Total realized P&L **-$49.18**.
+**Realized:** 3 closed round-trips — 1 win, 2 losses. Total realized P&L **-$49.18**. No new closed trades since 2026-08-08.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -47,18 +47,20 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Read the Excess column, not the Return column.** Every trade so far ran during a market rally, so raw returns flatter the strategy. Even the one win produced only **+3.82pp** of genuine alpha — the rest was market drift the loop would have captured by doing nothing. Across all three closed trades the strategy gave up **19.7 percentage points** relative to simply holding SPY.
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-07):** portfolio **-2.40%**, SPY **+4.26%**, relative **-6.66 pp**. Sample is 3 trades — far too small to conclude the strategy is broken (92-737 closed trades are needed, see `STRATEGY_RESEARCH_2.md` §1). It is, however, large enough to establish that absolute P&L alone was hiding the picture entirely.
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-10):** portfolio **-1.79%**, SPY **+4.37%**, relative **-6.15 pp**. Sample is 3 closed trades — far too small to conclude the strategy is broken (92-737 closed trades are needed, see `STRATEGY_RESEARCH_2.md` §1). It is, however, large enough to establish that absolute P&L alone was hiding the picture entirely.
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3).
 
-**Open positions:** 5, cost basis $1,921.83, fully deployed with $29 cash.
+**Open positions:** 5, cost basis $1,921.83, fully deployed with $29 cash. Current market value $1,935.29 (unrealized **+$13.46**).
 
-| Ticker | Qty | Avg cost | Held since |
-|---|---|---|---|
-| BTSG | 6 | $60.78 | 2026-07-31 |
-| FTI | 6 | $69.57 | 2026-08-03 |
-| ACIW | 7 | $54.69 | 2026-08-06 |
-| XYZ | 5 | $79.03 | 2026-08-06 |
-| MNST | 4 | $90.44 | 2026-08-07 |
+| Ticker | Qty | Avg cost | Current | Held since | Days held |
+|---|---|---|---|---|---|
+| BTSG | 6 | $60.78 | $62.14 | 2026-07-31 | 7 |
+| FTI | 6 | $69.57 | $72.86 | 2026-08-03 | 5 |
+| ACIW | 7 | $54.69 | $51.97 | 2026-08-06 | 3 |
+| XYZ | 5 | $79.03 | $78.93 | 2026-08-06 | 3 |
+| MNST | 4 | $90.44 | $91.90 | 2026-08-07 | 2 |
 
-**Account total:** $1,951.99 vs $2,000.00 starting capital = **-2.40%**. Kill-switch threshold is $1,600 (-20%); not close.
+No exit triggered on 2026-08-10: no position hit -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 7 days). FTI is nearest a target at +4.7% vs the +6% take-profit ($73.74).
+
+**Account total:** $1,964.29 vs $2,000.00 starting capital = **-1.79%** (SPY +4.37% same window; relative -6.15 pp). Kill-switch threshold is $1,600 (-20%); not close.

@@ -28,5 +28,6 @@ What is **not** recoverable: candidates scanned, reconciliation status, near-mis
 | 2026-08-06 17:00 | 14 | NO | unknown | unknown | bought XYZ (5 @ $79.03) | — | — | — | Reconstructed from fill at 17:18:00Z |
 | 2026-08-07 17:00 | 17 | NO | unknown | unknown | bought MNST (4 @ $90.44) | — | — | — | Reconstructed from fill at 17:17:50Z |
 | 2026-08-07 19:15 | 18 | NO | unknown | unknown | no fills recorded | — | — | — | Routine `last_fired_at` 19:16:11Z confirms it fired; outcome unknown |
+| 2026-08-10 14:20 | 1 (post-fix) | NO | YES (clean) | 0 (skipped — fully deployed) | none (no exits triggered; no buying power for new buys) | -1.79% | +4.37% | -6.15 | First post-fix logged run. Ledger reconciled cleanly vs broker (13 fills, 0 rows differed). 5 open positions all held: none hit -8% SL / +6% TP / 12-day max hold (oldest BTSG = 7 trading days). Settled cash $29 < 20% of capital ($392.86) → new-buy steps skipped, scan not run. Circuit breaker not tripped. Persisted? = NO (see below) |
 
 Run numbers are approximate — they assume all 3 daily runs fired on each weekday, which `last_fired_at` supports but cannot prove retroactively for every slot. Numbering restarts cleanly from the first run after the 2026-08-08 fix.
