@@ -51,16 +51,16 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3).
 
-**Open positions:** 5, cost basis $1,921.83, fully deployed with $29 cash. Current market value $1,935.29 (unrealized **+$13.46**).
+**Open positions:** 5, cost basis $1,921.83, fully deployed with $29 cash. Current market value $1,939.69 (unrealized **+$17.86**). *(Snapshot refreshed at the 2026-08-10 17:13 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held |
 |---|---|---|---|---|---|
-| BTSG | 6 | $60.78 | $62.14 | 2026-07-31 | 7 |
-| FTI | 6 | $69.57 | $72.86 | 2026-08-03 | 5 |
-| ACIW | 7 | $54.69 | $51.97 | 2026-08-06 | 3 |
-| XYZ | 5 | $79.03 | $78.93 | 2026-08-06 | 3 |
-| MNST | 4 | $90.44 | $91.90 | 2026-08-07 | 2 |
+| BTSG | 6 | $60.78 | $61.79 | 2026-07-31 | 7 |
+| FTI | 6 | $69.57 | $73.50 | 2026-08-03 | 6 |
+| ACIW | 7 | $54.69 | $52.37 | 2026-08-06 | 3 |
+| XYZ | 5 | $79.03 | $78.83 | 2026-08-06 | 3 |
+| MNST | 4 | $90.44 | $91.66 | 2026-08-07 | 2 |
 
-No exit triggered on 2026-08-10: no position hit -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 7 days). FTI is nearest a target at +4.7% vs the +6% take-profit ($73.74).
+No exit triggered at the 2026-08-10 17:13 UTC run: no position hit -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 7 trading days). FTI is nearest a target at +5.6% vs the +6% take-profit ($73.74). New buys skipped this run — settled cash $29 is below 20% of total capital ($393.74), so Step 5a halted the new-buy steps before the scan.
 
-**Account total:** $1,964.29 vs $2,000.00 starting capital = **-1.79%** (SPY +4.37% same window; relative -6.15 pp). Kill-switch threshold is $1,600 (-20%); not close.
+**Account total:** $1,968.69 vs $2,000.00 starting capital = **-1.57%** (SPY +4.22% same window; relative -5.79 pp). Kill-switch threshold is $1,600 (-20%); not close.
