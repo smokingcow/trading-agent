@@ -40,9 +40,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-11 (14:23 UTC run)
+## Position and P&L summary as of 2026-08-11 (17:14 UTC run)
 
-**Realized:** 4 closed round-trips — 2 wins, 2 losses. Total realized P&L **-$21.22** (unchanged; no exits this run). New buy this run: **VTR 4 @ $88.1253** (~$352.50, ~18% of capital).
+**Realized:** 4 closed round-trips — 2 wins, 2 losses. Total realized P&L **-$21.22** (unchanged; no exits and no new buy this run — settled cash below the 20% threshold).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -54,20 +54,20 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Read the Excess column, not the Return column.** Every trade so far ran during a market rally, so raw returns flatter the strategy. The two wins produced only **+3.82pp** and **+4.64pp** of genuine alpha — the rest was market drift the loop would have captured by doing nothing. Across all four closed trades the strategy has given up **15.1 percentage points** relative to simply holding SPY. FTI is the second win in a row that cleared its target *and* beat SPY over the identical window — the first two closed trades that both booked a gain and produced positive excess.
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-11):** portfolio **-2.23%** ($1,955.34 pre-trade vs $2,000), SPY **+4.32%** ($741.69 → $773.75), relative **-6.56 pp**. Sample is 4 closed trades — far too small to conclude the strategy is broken (92-737 closed trades are needed, see `STRATEGY_RESEARCH_2.md` §1). It is, however, large enough to establish that absolute P&L alone was hiding the picture entirely. Underperformance tripwire not flagged (-6.56pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-11 17:14 UTC):** portfolio **-2.46%** ($1,950.79 vs $2,000), SPY **+3.89%** ($741.69 → $770.54 live), relative **-6.35 pp**. (The prior 14:23 snapshot read -6.56 pp against SPY $773.75; SPY pulled back intraday to $770.54, narrowing the gap slightly.) Sample is 4 closed trades — far too small to conclude the strategy is broken (92-737 closed trades are needed, see `STRATEGY_RESEARCH_2.md` §1). It is, however, large enough to establish that absolute P&L alone was hiding the picture entirely. Underperformance tripwire not flagged (-6.35pp < -10pp threshold).
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3). The FTI take-profit, being a limit order, filled *above* its $74.15 limit at $74.2301 — price improvement rather than slippage.
 
-**Open positions:** 5, cost basis $1,857.31 ($1,504.91 prior + $352.50 VTR), plus $121.88 settled cash after the VTR buy (the FTI proceeds settled overnight, so cash was $474.38 pre-trade — all settled). *(Snapshot refreshed at the 2026-08-11 14:23 UTC run.)*
+**Open positions:** 5, cost basis $1,857.31, plus $121.88 settled cash (unsettled_funds $0 — all cash settled). *(Snapshot refreshed at the 2026-08-11 17:14 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| BTSG | 6 | $60.78 | $58.985 | 2026-07-31 | 8 |
-| ACIW | 7 | $54.69 | $52.60 | 2026-08-06 | 5 |
-| XYZ | 5 | $79.03 | $79.315 | 2026-08-06 | 5 |
-| MNST | 8 | $45.22 | $45.30 | 2026-08-07 | 4 |
-| VTR | 4 | $88.1253 | $87.86 | 2026-08-11 | 0 (new) |
+| BTSG | 6 | $60.78 | $58.14 | 2026-07-31 | 7 |
+| ACIW | 7 | $54.69 | $52.25 | 2026-08-06 | 5 |
+| XYZ | 5 | $79.03 | $79.06 | 2026-08-06 | 5 |
+| MNST | 8 | $45.22 | $45.91 | 2026-08-07 | 4 |
+| VTR | 4 | $88.1253 | $87.95 | 2026-08-11 | 1 |
 
-**MNST** now shows 8 shares @ $45.22 after a 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). No position triggered an exit this run: none hit the -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 8 trading days). **New buy executed:** the FTI proceeds settled overnight, lifting settled cash to $474.38 (> 20% of capital, $391.07), so the new-buy path ran for the first time in several runs. SPY $773.75 is above its 200-day EMA ($705.00) → regime gate passed. Scanned 165 dip candidates; VTR was the top gate-passing name (see buy row).
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exits this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 7 trading days). BTSG fell ~5.4% intraday to $58.14 — the nearest to a stop, but still above its $55.92 trigger. **No new buy:** settled cash $121.88 is below 20% of total capital ($390.16), so Step 5a skipped the new-buy path (regime gate and scan not reached). No FTI-style overnight settlement this run since no exit sold anything.
 
-**Account total (pre-trade):** $1,955.34 vs $2,000.00 starting capital = **-2.23%** (SPY +4.32% same window; relative -6.56 pp). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power after VTR buy: ~$121.88.
+**Account total:** $1,950.79 vs $2,000.00 starting capital = **-2.46%** (SPY +3.89% same window; relative -6.35 pp). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
