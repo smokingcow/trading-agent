@@ -40,7 +40,7 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-11 (19:16 UTC run)
+## Position and P&L summary as of 2026-08-12 (14:17 UTC run)
 
 **Realized:** 4 closed round-trips — 2 wins, 2 losses. Total realized P&L **-$21.22** (unchanged; no exits and no new buy this run — settled cash below the 20% threshold).
 
@@ -58,16 +58,16 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3). The FTI take-profit, being a limit order, filled *above* its $74.15 limit at $74.2301 — price improvement rather than slippage.
 
-**Open positions:** 5, cost basis $1,857.31, plus $121.88 settled cash (unsettled_funds $0 — all cash settled). *(Snapshot refreshed at the 2026-08-11 17:14 UTC run.)*
+**Open positions:** 5, cost basis $1,857.31, plus $121.88 settled cash (unsettled_funds $0 — all cash settled). *(Snapshot refreshed at the 2026-08-12 14:17 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| BTSG | 6 | $60.78 | $57.85 | 2026-07-31 | 8 |
-| ACIW | 7 | $54.69 | $52.20 | 2026-08-06 | 4 |
-| XYZ | 5 | $79.03 | $78.56 | 2026-08-06 | 4 |
-| MNST | 8 | $45.22 | $45.615 | 2026-08-07 | 3 |
-| VTR | 4 | $88.1253 | $87.79 | 2026-08-11 | 1 |
+| BTSG | 6 | $60.78 | $58.35 | 2026-07-31 | 9 |
+| ACIW | 7 | $54.69 | $51.99 | 2026-08-06 | 5 |
+| XYZ | 5 | $79.03 | $77.77 | 2026-08-06 | 5 |
+| MNST | 8 | $45.22 | $45.425 | 2026-08-07 | 4 |
+| VTR | 4 | $88.1253 | $88.365 | 2026-08-11 | 2 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exits this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 8 trading sessions). BTSG slid further to $57.85 (SL $55.92) — still the nearest to a stop but inside its band; ACIW $52.20 (SL $50.31), XYZ $78.56, MNST $45.615, VTR $87.79 all inside their bands. **No new buy:** settled cash $121.88 is below 20% of total capital ($388.41), so Step 5a skipped the new-buy path (regime gate and scan not reached). No overnight settlement this run since no exit sold anything.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exits this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-trading-day max hold (oldest = BTSG at 9 trading sessions). BTSG recovered slightly to $58.35 (SL $55.92) — still the nearest to a stop but inside its band; ACIW $51.99 (SL $50.31), XYZ $77.77 (SL $72.71), MNST $45.425 (SL $41.60), VTR $88.365 (SL $81.08) all inside their bands. **No new buy:** settled cash $121.88 is below 20% of total capital ($388.28), so Step 5a skipped the new-buy path (regime gate and scan not reached). No overnight settlement this run since no exit sold anything.
 
-**Account total:** $1,942.05 vs $2,000.00 starting capital = **-2.90%** (SPY +3.86% same window, $741.69 → $770.33 live; relative -6.76 pp). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
+**Account total:** $1,941.40 vs $2,000.00 starting capital = **-2.93%** (SPY +4.16% same window, $741.69 → $772.58 live; relative -7.09 pp). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
