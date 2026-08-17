@@ -41,9 +41,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-17 (17:09 UTC run)
+## Position and P&L summary as of 2026-08-17 (19:16 UTC run)
 
-**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy; settled cash below the 20% threshold). BTSG was force-closed at the 12-trading-day max hold in the prior 14:12 run.
+**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy; settled cash below the 20% threshold). BTSG was force-closed at the 12-trading-day max hold in the 14:12 run.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -58,17 +58,17 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3). The FTI take-profit, being a limit order, filled *above* its $74.15 limit at $74.2301 — price improvement rather than slippage. The BTSG max-hold exit, a market order, filled at $61.0501 essentially at the bid ($61.02) — no meaningful slippage on a non-stressed sale.
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-17 17:09 UTC):** portfolio **-0.58%** (total capital $1,988.38 vs $2,000), SPY **+4.43%** ($741.69 → $774.57 live), relative **-5.01 pp**. The book eased further intraday 08-17 (ACIW $52.55, XYZ $80.285, MNST $45.695 down; VTR $91.34 up) while SPY slipped to $774.57, widening the gap from -4.77pp to -5.01pp. Underperformance tripwire not flagged (-5.01pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-17 19:16 UTC):** portfolio **-0.93%** (total capital $1,981.36 vs $2,000), SPY **+4.27%** ($741.69 → $773.38 live), relative **-5.20 pp**. The book eased further into the close 08-17 (ACIW $52.005, XYZ $80.60, MNST $45.35 down from the 17:09 marks; VTR $90.825) while SPY slipped to $773.38, widening the gap from -5.01pp to -5.20pp. Underperformance tripwire not flagged (-5.20pp < -10pp threshold).
 
-**Open positions:** 4, cost basis $1,504.76, plus $488.18 total cash ($121.88 settled; $366.30 from the BTSG sale unsettled T+1, settle 08-18). *(Snapshot refreshed at the 2026-08-17 17:09 UTC run.)*
+**Open positions:** 4, cost basis $1,504.76, plus $488.18 total cash ($121.88 settled; $366.30 from the BTSG sale unsettled T+1, settle 08-18). *(Snapshot refreshed at the 2026-08-17 19:16 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| ACIW | 7 | $54.69 | $52.55 | 2026-08-06 | 8 |
-| XYZ | 5 | $79.03 | $80.285 | 2026-08-06 | 8 |
-| MNST | 8 | $45.22 | $45.695 | 2026-08-07 | 7 |
-| VTR | 4 | $88.1253 | $91.34 | 2026-08-11 | 5 |
+| ACIW | 7 | $54.69 | $52.005 | 2026-08-06 | 8 |
+| XYZ | 5 | $79.03 | $80.60 | 2026-08-06 | 8 |
+| MNST | 8 | $45.22 | $45.35 | 2026-08-07 | 7 |
+| VTR | 4 | $88.1253 | $90.825 | 2026-08-11 | 5 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 8 trading sessions): ACIW $52.55 (SL $50.31, below cost but well above stop), XYZ $80.285 (SL $72.71, TP $83.77 — nearest a target, ~$3.49 below), MNST $45.695 (SL $41.60, TP $47.93), VTR $91.34 (SL $81.08, TP $93.41 — ~$2.07 below TP) all inside their bands. **No new buy:** settled cash $121.88 is below 20% of total capital ($397.67), so Step 5a skipped the new-buy path (regime gate and scan not reached). BTSG proceeds ($366.30) settle T+1 (08-18) and are not buying power this run.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 8 trading sessions): ACIW $52.005 (SL $50.31, below cost but well above stop), XYZ $80.60 (SL $72.71, TP $83.77 — nearest a target, ~$3.17 below), MNST $45.35 (SL $41.60, TP $47.93), VTR $90.825 (SL $81.08, TP $93.41 — ~$2.59 below TP) all inside their bands. **No new buy:** settled cash $121.88 is below 20% of total capital ($396.27), so Step 5a skipped the new-buy path (regime gate and scan not reached). BTSG proceeds ($366.30) settle T+1 (08-18) and are not buying power this run.
 
-**Account total:** $1,988.38 vs $2,000.00 starting capital = **-0.58%** (SPY +4.43% same window, $741.69 → $774.57 live; relative -5.01 pp) — just below starting capital on the softer 08-17 tape. Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
+**Account total:** $1,981.36 vs $2,000.00 starting capital = **-0.93%** (SPY +4.27% same window, $741.69 → $773.38 live; relative -5.20 pp) — just below starting capital on the softer 08-17 close. Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
