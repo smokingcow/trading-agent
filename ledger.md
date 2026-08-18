@@ -41,9 +41,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-18 (17:14 UTC run)
+## Position and P&L summary as of 2026-08-18 (19:21 UTC run)
 
-**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy). Second consecutive run with the new-buy path open (cash $488.18 all settled) but no candidate surviving the buy filter — the semi/AI risk-off tape persists.
+**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy). Third consecutive run with the new-buy path open (cash $488.18 all settled) but no candidate surviving the buy filter — the semi/AI/electronics risk-off tape persists.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -60,15 +60,15 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Portfolio vs benchmark since inception (2026-07-30 → 2026-08-18 14:19 UTC):** portfolio **+0.34%** (total capital $2,006.77 vs $2,000), SPY **+3.54%** ($741.69 → $767.935 live), relative **-3.20 pp**. The relative gap *narrowed* from -5.20pp (last run) to -3.20pp — not because the book gained skill but because 08-18 is a broad tech-risk-off day (SPY -0.6% intraday on a Strait-of-Hormuz geopolitical shock + an ongoing AI/semiconductor structural selloff), and this book is non-tech/defensive (MNST +2.6%, VTR +1.1%, ACIW +2.0%, XYZ +0.75% vs prior close) so it held up while SPY fell. Beta, not alpha. Underperformance tripwire not flagged (-3.20pp < -10pp threshold).
 
-**Open positions:** 4, cost basis $1,504.76, plus $488.18 cash (all settled). *(Snapshot refreshed at the 2026-08-18 17:14 UTC run.)*
+**Open positions:** 4, cost basis $1,504.76, plus $488.18 cash (all settled). *(Snapshot refreshed at the 2026-08-18 19:21 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| ACIW | 7 | $54.69 | $52.27 | 2026-08-06 | 9 |
-| XYZ | 5 | $79.03 | $80.83 | 2026-08-06 | 9 |
-| MNST | 8 | $45.22 | $47.35 | 2026-08-07 | 8 |
-| VTR | 4 | $88.1253 | $92.105 | 2026-08-11 | 6 |
+| ACIW | 7 | $54.69 | $52.31 | 2026-08-06 | 9 |
+| XYZ | 5 | $79.03 | $80.095 | 2026-08-06 | 9 |
+| MNST | 8 | $45.22 | $47.315 | 2026-08-07 | 8 |
+| VTR | 4 | $88.1253 | $91.47 | 2026-08-11 | 6 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 9 trading sessions, 3 short of 12): ACIW $52.27 (SL $50.31, TP $57.97 — closest to SL but well inside band), XYZ $80.83 (SL $72.71, TP $83.77 — ~$2.94 below TP), MNST $47.35 (SL $41.60, TP $47.93 — **~$0.58 below TP**, nearest a target), VTR $92.105 (SL $81.08, TP $93.41 — ~$1.31 below TP) all inside their bands. MNST is the closest to a trigger and could hit +6% TP on a modest upside move. **No new buy despite the open path:** settled buying power $488.18 > 20% of capital ($401.10), Steps 5b–8 ran — SPY $768.59 > 200d EMA $707.73 (regime gate PASSED), scanned 208 dips. **ST -5.5% ($43.42)** and **CGNX -4.4% ($63.68)** were the two candidates surviving all mechanical gates (trend filter, earnings >14d, wash-sale, spread) with clean fundamentals (both Q2 beats, analyst PT hikes for ST), but **both skipped** because the Electronic Technology sector selloff carries a genuine fundamental story (AI-capex sustainability, memory margin compression, China chip competition, smartphone weakness — SOX in a multi-week structural downtrend). The setup pattern-matches the EIX/PBF stop-outs (both "sector sentiment dips in fundamentally-intact names," both stopped out -9.4%/-9.6% within 3-5 sessions). IBKR -3.8% was blocked by sector cap (Finance conflicts with VTR); NXT/AAON/CVNA all failed trend filter; BIDU had a real -21% Q2 earnings miss. Per buy-filter rule "err toward skipping" when genuinely unsure. Valid no-action.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 9 trading sessions, 3 short of 12): ACIW $52.31 (SL $50.31, TP $57.97), XYZ $80.095 (SL $72.71, TP $83.77 — ~$3.68 below TP), MNST $47.315 (SL $41.60, TP $47.93 — **~$0.62 below TP**, nearest a target), VTR $91.47 (SL $81.08, TP $93.41 — ~$1.94 below TP) all inside their bands. MNST remains the closest to a trigger and could hit +6% TP on a modest upside move. **No new buy despite the open path:** settled buying power $488.18 > 20% of capital ($399.84), Steps 5b–8 ran — SPY $767.75 > 200d EMA $708.37 (regime gate PASSED), scanned 233 dips. Four candidates cleared **all** mechanical gates (earnings >14d, wash-sale, spread, and trend filter above 200d EMA): **AVT -6.19% ($92.53 > EMA $74.06)**, **ST -5.90% ($43.21 > EMA $40.80)**, **CGNX -4.52% ($63.59 > EMA $55.00)**, **TEX -3.83% ($64.76 > EMA $60.72)** — but **all four skipped** on buy-filter judgment. AVT (electronics distribution), ST and CGNX (Electronic Technology) are dipping as part of the documented multi-week **structural** semiconductor/electronics downtrend with a real fundamental driver (AI-capex sustainability, memory-margin compression, China competition, auto/smartphone demand) — the same setup that stopped out EIX/PBF at -9.4%/-9.6% within days. TEX is a rate-sensitive industrial cyclical rolling over from its June high on pure beta with no reversible catalyst and only a modest -3.83% dip. TIGO -7.89% skipped (fundamental: margin compression 17%→9.2%, FX/EM/regulatory risk, -19% from its 08-06 52w high — falling knife); SUNB -4.88% blocked by sector cap (Finance conflicts with VTR); BIDU -12.8% had a real -21% Q2 miss. Per buy-filter rule "err toward skipping" when genuinely unsure — third consecutive no-buy today. Valid no-action.
 
-**Account total:** $2,005.49 vs $2,000.00 starting capital = **+0.27%** (SPY +3.63% same window, $741.69 → $768.59 live; relative **-3.36 pp**) — a slight give-back vs the 14:19 snapshot (portfolio -$1, SPY +$0.66). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $488.18 (all settled).
+**Account total:** $1,999.23 vs $2,000.00 starting capital = **-0.04%** (SPY +3.51% same window, $741.69 → $767.75 live; relative **-3.55 pp**) — a give-back vs the 17:14 snapshot (portfolio -$6 as XYZ/VTR eased into the close, SPY -$0.84). Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $488.18 (all settled).
