@@ -41,9 +41,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-17 (19:16 UTC run)
+## Position and P&L summary as of 2026-08-18 (14:19 UTC run)
 
-**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy; settled cash below the 20% threshold). BTSG was force-closed at the 12-trading-day max hold in the 14:12 run.
+**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered and no new buy). BTSG's $366.30 proceeds settled overnight (unsettled_funds now $0), lifting settled buying power to $488.18 — the first run since 08-11 with the new-buy path open — but no candidate survived the buy filter (see run-log). BTSG was force-closed at the 12-trading-day max hold in the 08-17 14:12 run.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -58,17 +58,17 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3). The FTI take-profit, being a limit order, filled *above* its $74.15 limit at $74.2301 — price improvement rather than slippage. The BTSG max-hold exit, a market order, filled at $61.0501 essentially at the bid ($61.02) — no meaningful slippage on a non-stressed sale.
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-17 19:16 UTC):** portfolio **-0.93%** (total capital $1,981.36 vs $2,000), SPY **+4.27%** ($741.69 → $773.38 live), relative **-5.20 pp**. The book eased further into the close 08-17 (ACIW $52.005, XYZ $80.60, MNST $45.35 down from the 17:09 marks; VTR $90.825) while SPY slipped to $773.38, widening the gap from -5.01pp to -5.20pp. Underperformance tripwire not flagged (-5.20pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-18 14:19 UTC):** portfolio **+0.34%** (total capital $2,006.77 vs $2,000), SPY **+3.54%** ($741.69 → $767.935 live), relative **-3.20 pp**. The relative gap *narrowed* from -5.20pp (last run) to -3.20pp — not because the book gained skill but because 08-18 is a broad tech-risk-off day (SPY -0.6% intraday on a Strait-of-Hormuz geopolitical shock + an ongoing AI/semiconductor structural selloff), and this book is non-tech/defensive (MNST +2.6%, VTR +1.1%, ACIW +2.0%, XYZ +0.75% vs prior close) so it held up while SPY fell. Beta, not alpha. Underperformance tripwire not flagged (-3.20pp < -10pp threshold).
 
-**Open positions:** 4, cost basis $1,504.76, plus $488.18 total cash ($121.88 settled; $366.30 from the BTSG sale unsettled T+1, settle 08-18). *(Snapshot refreshed at the 2026-08-17 19:16 UTC run.)*
+**Open positions:** 4, cost basis $1,504.76, plus $488.18 cash (all settled — BTSG proceeds cleared overnight, unsettled_funds $0). *(Snapshot refreshed at the 2026-08-18 14:19 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| ACIW | 7 | $54.69 | $52.005 | 2026-08-06 | 8 |
-| XYZ | 5 | $79.03 | $80.60 | 2026-08-06 | 8 |
-| MNST | 8 | $45.22 | $45.35 | 2026-08-07 | 7 |
-| VTR | 4 | $88.1253 | $90.825 | 2026-08-11 | 5 |
+| ACIW | 7 | $54.69 | $53.155 | 2026-08-06 | 9 |
+| XYZ | 5 | $79.03 | $80.805 | 2026-08-06 | 9 |
+| MNST | 8 | $45.22 | $46.71 | 2026-08-07 | 8 |
+| VTR | 4 | $88.1253 | $92.20 | 2026-08-11 | 6 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 8 trading sessions): ACIW $52.005 (SL $50.31, below cost but well above stop), XYZ $80.60 (SL $72.71, TP $83.77 — nearest a target, ~$3.17 below), MNST $45.35 (SL $41.60, TP $47.93), VTR $90.825 (SL $81.08, TP $93.41 — ~$2.59 below TP) all inside their bands. **No new buy:** settled cash $121.88 is below 20% of total capital ($396.27), so Step 5a skipped the new-buy path (regime gate and scan not reached). BTSG proceeds ($366.30) settle T+1 (08-18) and are not buying power this run.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 4 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 9 trading sessions, 3 short of 12): ACIW $53.155 (SL $50.31, TP $57.97), XYZ $80.805 (SL $72.71, TP $83.77 — nearest a target, ~$2.97 below), MNST $46.71 (SL $41.60, TP $47.93 — ~$1.22 below TP), VTR $92.20 (SL $81.08, TP $93.41 — ~$1.21 below TP) all inside their bands. **No new buy despite the open path:** settled buying power $488.18 exceeded 20% of capital ($401.35), so Steps 5b–8 ran — SPY $767.935 > 200d EMA $708.32 (regime gate passed), scanned 182 dips — but no candidate survived the buy filter. The dip list is dominated by a semiconductor/AI-infrastructure structural downtrend (MXL -10%, AMKR -9.3%, VIAV/KLIC -9.2%, plus CRWV/HUT/IREN/OKLO/IONQ), which the trend filter and "don't buy dips into a downtrend" rule exclude; BIDU -9.7% is a real -21% earnings miss; TIGO -6.8% (biggest isolated dip, above its 200d EMA) carries margin compression 17%→9.2% (fundamental, skip); AA -3.7% is below its 200d EMA (fails trend filter). No fundamentally-sound isolated sentiment dip in an intact uptrend → valid no-action.
 
-**Account total:** $1,981.36 vs $2,000.00 starting capital = **-0.93%** (SPY +4.27% same window, $741.69 → $773.38 live; relative -5.20 pp) — just below starting capital on the softer 08-17 close. Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $121.88.
+**Account total:** $2,006.77 vs $2,000.00 starting capital = **+0.34%** (SPY +3.54% same window, $741.69 → $767.935 live; relative -3.20 pp) — back above starting capital as the defensive book outperformed a risk-off tape. Kill-switch threshold is $1,600 (-20%); not close. Settled buying power: $488.18 (all settled).
