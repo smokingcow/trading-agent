@@ -42,9 +42,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-19 (17:14 UTC run)
+## Position and P&L summary as of 2026-08-19 (19:17 UTC run)
 
-**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered). **NEW BUY this run: WMB, 5 shares @ $73.2399 ($366.20).** First new position since VTR (2026-08-11) and the first buy after five consecutive no-buy runs. The semiconductor/electronics structural selloff still dominates the top of the dip leaderboard (all skipped as falling knives / sector-cap / fundamental deterioration), but a fundamentally-sound midstream name (WMB) dipping on a sector-wide pullback in an intact uptrend cleared every gate and the buy filter.
+**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered). **No action this run:** no exits (all 5 positions inside their bands, oldest ACIW/XYZ = 10 trading sessions, 2 short of the 12-day max hold) and the new-buy path was closed at Step 5a — the WMB buy earlier today (17:14) consumed the settled cash, leaving $121.98 settled (< 20% of capital, $401.93). Same-day 19:17 snapshot after the 17:14 WMB entry.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -65,12 +65,12 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| ACIW | 7 | $54.69 | $52.425 | 2026-08-06 | 10 |
-| XYZ | 5 | $79.03 | $81.28 | 2026-08-06 | 10 |
-| MNST | 8 | $45.22 | $47.305 | 2026-08-07 | 9 |
-| VTR | 4 | $88.1253 | $91.735 | 2026-08-11 | 7 |
-| WMB | 5 | $73.2399 | $73.24 | 2026-08-19 | 0 (opened this run) |
+| ACIW | 7 | $54.69 | $52.31 | 2026-08-06 | 10 |
+| XYZ | 5 | $79.03 | $81.405 | 2026-08-06 | 10 |
+| MNST | 8 | $45.22 | $47.59 | 2026-08-07 | 9 |
+| VTR | 4 | $88.1253 | $91.65 | 2026-08-11 | 7 |
+| WMB | 5 | $73.2399 | $73.42 | 2026-08-19 | 0 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 10 trading sessions, 2 short of 12): ACIW $52.425 (SL $50.31, TP $57.97), XYZ $81.28 (SL $72.71, TP $83.77 — ~$2.49 below TP), MNST $47.305 (SL $41.60, TP $47.93 — ~$0.63 below TP), VTR $91.735 (SL $81.08, TP $93.41 — ~$1.68 below TP), WMB $73.24 (SL $67.38, TP $77.63) all inside their bands. **NEW BUY: WMB 5 @ $73.2399 ($366.20).** New-buy path open (settled cash $488.18 > 20% of capital $401.41); regime gate PASSED (SPY $769.74 > 200d EMA $708.32); scanned 135 dips. The top of the leaderboard was again the **structural semiconductor/electronics selloff** — AXTI -8.5%, ACMR -7.4%, MXL -6.9%, MRCY -6.7%, AMKR -6.4%, plus INTC/STM/GFS/HPE/RKLB/CGNX/AVT/RAL — all Electronic-Technology names down ~40-50% from highs, skipped as falling knives / structural downtrend. Regional banks (CFG, ZION, USB, FITB, LNC) all sector-capped (Robinhood classifies them Finance, conflicting with VTR). Energy/pipelines split on the trend gate: **TRP $61.9 < EMA $62.33 and ENB $50.05 < EMA $52.26 both FAILED trend**; WMB, KGS both passed. Mechanical-gate survivors (earnings >14d, wash-sale, spread <1%, trend all PASS): **WMB, KGS, DPC, ARMK**. KGS skipped — real Q2 miss ($0.55 vs $0.75 est, -27%) on 08-06 with a recurring miss pattern, 22% off highs (fundamental deterioration). DPC skipped — brand-new listing (~2 months of history, 52w low set June 2026), obscure UK aerospace-castings spin, negative earnings, no recovery profile to assess. VIK dropped on the earnings gate (reported 08-19 am, beat but fell -3.6%, ambiguous). **WMB bought** as the biggest justified dip in a fundamentally-sound name in an intact uptrend (see the ledger row's dip-attribution summary). Wash-sale blocklist (EIX, PBF) — PBF not in today's candidates.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 10 trading sessions, 2 short of 12): ACIW $52.31 (SL $50.31, TP $57.97), XYZ $81.405 (SL $72.71, TP $83.77 — ~$2.37 below TP), MNST $47.59 (SL $41.60, TP $47.93 — ~$0.34 below TP, nearest a target), VTR $91.65 (SL $81.08, TP $93.41 — ~$1.76 below TP), WMB $73.42 (SL $67.38, TP $77.63) all inside their bands. **No new buy:** the new-buy path was closed at Step 5a — settled cash $121.98 (unsettled_funds=0) < 20% of capital ($401.93), because the 17:14 WMB buy consumed the settled buying power. Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (no realized SELLs today — last sell BTSG 08-17). Wash-sale blocklist (EIX, PBF) still active for future runs.
 
-**Account total:** ~$2,006.94 vs $2,000.00 starting capital = **+0.35%** (SPY +3.78% same window, $741.69 → $769.74 live; relative **-3.43 pp**). Kill-switch threshold is $1,600 (-20%); not close. Post-buy cash: ~$121.98 (settled; WMB fill consumed $366.20).
+**Account total:** $2,009.65 vs $2,000.00 starting capital = **+0.48%** (SPY +3.78% same window, $741.69 → $769.71 live; relative **-3.30 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash: $121.98 (all settled).
