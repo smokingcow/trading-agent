@@ -42,9 +42,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-19 (19:17 UTC run)
+## Position and P&L summary as of 2026-08-20 (14:14 UTC run)
 
-**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered). **No action this run:** no exits (all 5 positions inside their bands, oldest ACIW/XYZ = 10 trading sessions, 2 short of the 12-day max hold) and the new-buy path was closed at Step 5a — the WMB buy earlier today (17:14) consumed the settled cash, leaving $121.98 settled (< 20% of capital, $401.93). Same-day 19:17 snapshot after the 17:14 WMB entry.
+**Realized:** 5 closed round-trips — 2 wins, 2 losses, 1 timeout. Total realized P&L **-$19.60** (unchanged this run — no exits triggered). **No action this run:** no exits (all 5 positions inside their bands, oldest ACIW/XYZ = 11 trading sessions, 1 short of the 12-day max hold — force-close lands next trading day 08-21 absent a stop/TP) and the new-buy path was closed at Step 5a — settled cash $121.98 (< 20% of capital, $400.04). Softer 08-20 tape (SPY -0.4% intraday).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -59,18 +59,18 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Stop-loss slippage:** both stop-outs filled *past* their -8% trigger — EIX at -9.42% vs a $69.63 trigger, PBF at -9.61% vs a $62.14 trigger. That is ~1.5-1.8% of market-order gap cost per stop, and it is the reason the take-profit/stop-loss levels were revised on 2026-08-08 (see `AGENT_PROMPT.md` judgment-call table #2/#3). The FTI take-profit, being a limit order, filled *above* its $74.15 limit at $74.2301 — price improvement rather than slippage. The BTSG max-hold exit, a market order, filled at $61.0501 essentially at the bid ($61.02) — no meaningful slippage on a non-stressed sale.
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-19 17:14 UTC):** portfolio **+0.35%** (total capital ~$2,006.94 vs $2,000), SPY **+3.78%** ($741.69 → $769.74 live), relative **-3.43 pp**. Roughly flat vs the 14:17 run — the book eased slightly (ACIW $52.68→$52.425, VTR $91.49→$91.735, MNST $47.75→$47.305) as SPY ticked up. The -3.43pp gap is persistent beta drag: the book has consistently trailed SPY's rally since inception. Underperformance tripwire not flagged (-3.43pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-20 14:14 UTC):** portfolio **+0.01%** (total capital $2,000.18 vs $2,000), SPY **+3.29%** ($741.69 → $766.12 live), relative **-3.28 pp**. The book eased back near starting capital on a softer 08-20 open (SPY -0.4% intraday; ACIW $52.31→$51.49, XYZ $81.405→$79.975) while VTR ($91.65→$92.82) and MNST ($47.59→$47.47) firmed toward their take-profits. The -3.28pp gap is persistent beta drag: the book has consistently trailed SPY's rally since inception. Underperformance tripwire not flagged (-3.28pp < -10pp threshold).
 
-**Open positions:** 5 after the WMB buy, cost basis ~$1,870.96, plus ~$121.98 cash (WMB buy consumed $366.20 of the $488.18 settled cash). *(Snapshot refreshed at the 2026-08-19 17:14 UTC run.)*
+**Open positions:** 5, cost basis ~$1,870.96, plus $121.98 cash. *(Snapshot refreshed at the 2026-08-20 14:14 UTC run.)*
 
 | Ticker | Qty | Avg cost | Current | Held since | Days held (trading) |
 |---|---|---|---|---|---|
-| ACIW | 7 | $54.69 | $52.31 | 2026-08-06 | 10 |
-| XYZ | 5 | $79.03 | $81.405 | 2026-08-06 | 10 |
-| MNST | 8 | $45.22 | $47.59 | 2026-08-07 | 9 |
-| VTR | 4 | $88.1253 | $91.65 | 2026-08-11 | 7 |
-| WMB | 5 | $73.2399 | $73.42 | 2026-08-19 | 0 |
+| ACIW | 7 | $54.69 | $51.49 | 2026-08-06 | 11 |
+| XYZ | 5 | $79.03 | $79.975 | 2026-08-06 | 11 |
+| MNST | 8 | $45.22 | $47.47 | 2026-08-07 | 10 |
+| VTR | 4 | $88.1253 | $92.82 | 2026-08-11 | 7 |
+| WMB | 5 | $73.2399 | $73.34 | 2026-08-19 | 1 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 10 trading sessions, 2 short of 12): ACIW $52.31 (SL $50.31, TP $57.97), XYZ $81.405 (SL $72.71, TP $83.77 — ~$2.37 below TP), MNST $47.59 (SL $41.60, TP $47.93 — ~$0.34 below TP, nearest a target), VTR $91.65 (SL $81.08, TP $93.41 — ~$1.76 below TP), WMB $73.42 (SL $67.38, TP $77.63) all inside their bands. **No new buy:** the new-buy path was closed at Step 5a — settled cash $121.98 (unsettled_funds=0) < 20% of capital ($401.93), because the 17:14 WMB buy consumed the settled buying power. Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (no realized SELLs today — last sell BTSG 08-17). Wash-sale blocklist (EIX, PBF) still active for future runs.
+**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **No exit this run:** none of the 5 positions hit the -8% stop, +6% take-profit, or the 12-day max hold (oldest ACIW/XYZ = 11 trading sessions, 1 short of 12 — force-close lands next trading day 08-21 absent a stop/TP): ACIW $51.49 (SL $50.31, TP $57.97 — below cost -5.9%, nearest a stop but well inside band), XYZ $79.975 (SL $72.71, TP $83.77 — ~$3.80 below TP), MNST $47.47 (SL $41.60, TP $47.93 — ~$0.46 below TP, nearest a target), VTR $92.82 (SL $81.08, TP $93.41 — ~$0.59 below TP, 2nd-nearest a target), WMB $73.34 (SL $67.38, TP $77.63) all inside their bands. **No new buy:** the new-buy path was closed at Step 5a — settled cash $121.98 (unsettled_funds=0) < 20% of capital ($400.04). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (no realized SELLs today — last sell BTSG 08-17). Wash-sale blocklist (EIX, PBF) still active for future runs.
 
-**Account total:** $2,009.65 vs $2,000.00 starting capital = **+0.48%** (SPY +3.78% same window, $741.69 → $769.71 live; relative **-3.30 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash: $121.98 (all settled).
+**Account total:** $2,000.18 vs $2,000.00 starting capital = **+0.01%** (SPY +3.29% same window, $741.69 → $766.12 live; relative **-3.28 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash: $121.98 (all settled).
