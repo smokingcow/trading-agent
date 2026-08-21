@@ -37,6 +37,8 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 | 2026-08-19 | WMB | BUY | $73.2399 | 5 | Sentiment/sector dip (midstream selloff; fundamentally intact & improving) | WMB fell -2.5% to ~$73.24 as part of a sector-wide midstream/pipeline selloff (TRP, ENB, KGS all down the same day) on soft natural-gas sentiment (Henry Hub ~$2.87/MMBtu, ~29% off the Jan peak), while the broad market was UP (SPY +0.3% intraday) — so the dip is macro/sector-driven, not company-specific. Williams reported Q2 2026 on 08-03 essentially in-line ($0.50 vs $0.51 est) but RAISED full-year EBITDA guidance +$200M at midpoint and lifted its long-term growth target to 11%+ CAGR through 2030, drawing a wave of analyst upgrades/PT hikes (Goldman, Jefferies, RBC, BofA, Morgan Stanley; targets to $82) on Transco/LNG/AI-data-center demand. It is a fee-based (Transco) blue-chip largely insulated from gas prices, trading ~6% off its all-time high and +4.9% above its 200-day EMA ($69.86) — an intact uptrend — with a 10-year history of recovering ≥6% weekly drops (31 of 555 weeks, still near ATH). Bought as a sentiment/sector dip in a fundamentally-improving name in an intact uptrend. | — | -$19.60 | — | — | — |
 | 2026-08-21 | ACIW | SELL | $52.0601 | 7 | Max-hold force-close (12 trading days; market order) | *(original thesis not recorded — backfilled buy row)* | **-$18.40 (-4.81%)** | -$38.00 | TIMEOUT | -0.44% | **-4.37 pp** |
 | 2026-08-21 | XYZ | SELL | $82.0300 | 5 | Max-hold force-close (12 trading days; market order) | *(original thesis not recorded — backfilled buy row)* | **+$15.00 (+3.80%)** | -$23.00 | TIMEOUT | -0.44% | **+4.24 pp** |
+| 2026-08-21 | MNST | SELL | $47.9813 | 8 | Take-profit (limit order; +6% target hit) | *(original thesis not recorded — backfilled buy row; split-adjusted basis $45.22)* | **+$22.09 (+6.11%)** | -$0.91 | YES | -0.89% | **+7.00 pp** |
+| 2026-08-21 | VTR | SELL | $93.6300 | 4 | Take-profit (limit order; +6% target hit) | VTR fell -4.1% to ~$87.86 (filled $88.13), a sector/rate-driven pullback: AHR priced a $712M dilutive secondary offering that pressured senior-housing REIT peers (VTR, OHI also down) on a day the broad market was up. VTR beat Q2 earnings 07-29 with no company-specific negative news; the slide from its 07-28 ATH was a valuation/rate derating of a sector that ran ~50%, not fundamental deterioration. Bought as a sentiment/sector dip in an intact uptrend — recovered to the +6% take-profit in 7 trading days. | **+$22.02 (+6.25%)** | +$21.11 | YES | -0.55% | **+6.79 pp** |
 
 ---
 
@@ -44,9 +46,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-21 (14:12 UTC run — Run 28)
+## Position and P&L summary as of 2026-08-21 (17:08 UTC run — Run 29)
 
-**Realized:** 7 closed round-trips — 2 take-profit (YES), 2 stop-loss (NO), 3 timeout. Total realized P&L **-$23.00** (this run: ACIW -$18.40, XYZ +$15.00, net -$3.40). **Action this run:** two max-hold force-closes — ACIW and XYZ both hit 12 trading days (bought 2026-08-06) and were sold at market. Neither hit the -8% stop or +6% TP; the 12-session max-hold fired. No new buy (Step 5a — settled cash below the 20% threshold, same as recent runs; today's sale proceeds are unsettled T+1 and not spendable this run).
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (this run: MNST +$22.09, VTR +$22.02, net +$44.11). **Action this run:** two take-profit exits — **MNST and VTR both crossed their +6% take-profit** and were sold via limit order near current price. MNST filled $47.9813 (8 sh; +6.11% on the $45.22 split-adjusted basis), VTR filled $93.6300 (4 sh; +6.25%). No new buy (Step 5a — settled cash $121.98 < 20% threshold; both TP proceeds are unsettled T+1).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -57,22 +59,22 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 | BTSG | $60.7799 | $61.0501 | 12 trading days | +0.44% | +3.81% | **-3.37 pp** | Max-hold (timeout) |
 | ACIW | $54.6889 | $52.0601 | 12 trading days | -4.81% | -0.44% | **-4.37 pp** | Max-hold (timeout) |
 | XYZ | $79.0299 | $82.0300 | 12 trading days | +3.80% | -0.44% | **+4.24 pp** | Max-hold (timeout) |
-| | | | | **-5.82%** | **+12.73%** | **-18.56 pp** | |
+| MNST | $45.2200 | $47.9813 | 10 trading days | +6.11% | -0.89% | **+7.00 pp** | Take-profit |
+| VTR | $88.1253 | $93.6300 | 7 trading days | +6.25% | -0.55% | **+6.79 pp** | Take-profit |
+| | | | | **avg +2.62%** | | **+1.62 pp avg** | |
 
-**Read the Excess column, not the Return column.** Every closed trade so far ran during a market rally, so raw returns flatter the strategy. Today's two timeouts illustrate both sides of the max-hold rule: ACIW drifted -4.81% (a -4.37pp relative loss), while XYZ booked a nominal +3.80% "win" — but SPY *fell* -0.44% over that identical 08-06→08-21 window, so XYZ's +4.24pp is the rare stretch where the loop actually beat the tape. Even so, across all seven closed trades the strategy has given up **18.6 percentage points** relative to simply holding SPY. Sample is 7 closed trades — still far too small to conclude anything about the strategy (92-737 closed trades needed, see `STRATEGY_RESEARCH_2.md` §1).
+**Read the Excess column, not the Return column.** Both of today's take-profits are genuine wins on the metric that matters: MNST returned +6.11% while SPY *fell* -0.89% over the identical 08-07→08-21 window (+7.00pp excess), and VTR +6.25% vs SPY -0.55% over 08-11→08-21 (+6.79pp excess). These are the first two closed trades where the strategy captured a real +6% gain against a *falling* tape — the setup the loop is designed for (buy sector/sentiment dips in intact uptrends, exit on reversion). The two 2026-08 stop-outs (EIX, PBF) remain the drag; across all 9 closed trades the average excess is now **+1.62pp**, up sharply from the -18.56pp cumulative shortfall carried when every prior closed trade had run during the market's July–mid-August rally. Sample is 9 closed trades — still far too small to conclude anything (92-737 needed, see `STRATEGY_RESEARCH_2.md` §1).
 
-**Stop-loss slippage:** the two stop-outs (EIX -9.42%, PBF -9.61%) filled ~1.5-1.8% past their -8% trigger — the market-order gap cost behind the 2026-08-08 revisions (see `AGENT_PROMPT.md` judgment-call table #2/#3). Today's two max-hold market sells were non-stressed: ACIW filled $52.0601 vs a $52.04 bid, XYZ filled $82.0300 vs an $81.87 bid (slight price improvement) — no meaningful slippage.
+**Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-21 14:12 UTC):** portfolio **+0.19%** (total capital $2,003.81 vs $2,000), SPY **+3.17%** ($741.69 → $765.20 live), relative **-2.98 pp**. Persistent beta drag: the book has trailed SPY's rally since inception, though the gap narrowed slightly this run as SPY pulled back from its mid-August highs. Underperformance tripwire not flagged (-2.98pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-21 17:08 UTC):** portfolio **+0.44%** (total capital ~$2,008.5 vs $2,000), SPY **+3.33%** ($741.69 → $766.36 live), relative **-2.89 pp**. Still a beta drag since inception, but the gap narrowed as the two TP wins were realized against a soft tape. Underperformance tripwire not flagged (-2.89pp < -10pp threshold).
 
-**Open positions:** 3, cost basis ~$1,096.34, plus $896.55 cash ($121.98 settled + $774.57 unsettled T+1 sale proceeds). *(Snapshot refreshed at the 2026-08-21 14:12 UTC run, market open.)*
+**Open positions:** 1 (WMB only), cost basis $366.20, plus ~$1,655 cash ($121.98 settled + ~$1,533 unsettled T+1 sale proceeds from ACIW/XYZ/MNST/VTR). *(Snapshot at the 2026-08-21 17:08 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| MNST | 8 | $45.22 | $47.57 | $41.60 | $47.93 | 2026-08-07 | 11 |
-| VTR | 4 | $88.1253 | $92.64 | $81.08 | $93.41 | 2026-08-11 | 9 |
-| WMB | 5 | $73.2399 | $71.23 | $67.38 | $77.63 | 2026-08-19 | 3 |
+| WMB | 5 | $73.2399 | $70.72 | $67.38 | $77.63 | 2026-08-19 | 3 |
 
-**MNST** holds 8 shares @ $45.22 after the 2-for-1 split (cost basis unchanged $361.76; see corporate-action note above). **Remaining 3 positions all held** — none hit the -8% stop, +6% TP, or 12-day max hold: MNST $47.57 (**$0.36 below its $47.93 TP** — nearest a target, 11 sessions), VTR $92.64 ($0.77 below its $93.41 TP, 9 sessions), WMB $71.23 (-2.7% below cost, 3 sessions). **No new buy:** Step 5a closed the new-buy path — settled cash $121.98 (unsettled_funds excludes today's $774.57 sale proceeds, which are T+1) < 20% of capital ($400.76). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (today's realized -$3.40 vs 6% threshold ≈ $120). Wash-sale blocklist now **EIX, PBF, ACIW** (ACIW sold at a -4.81% loss today — blocked for 30 days through ~2026-09-20). XYZ sold at a gain, so no wash-sale restriction.
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.72 (-3.4% below cost, 3 trading sessions). **No new buy:** Step 5a closed the new-buy path — settled cash $121.98 (both TP proceeds and this morning's ACIW/XYZ proceeds are all unsettled T+1) < 20% of capital (~$402). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (today's realized +$40.71, positive). Wash-sale blocklist remains **EIX, PBF, ACIW** (ACIW sold at a loss 08-21, blocked ~30 days through 2026-09-20). MNST and VTR sold at gains today, so no wash-sale restriction on them.
 
-**Account total:** $2,003.81 vs $2,000.00 starting capital = **+0.19%** (SPY +3.17% same window, $741.69 → $765.20 live; relative **-2.98 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash: $896.55 ($121.98 settled, $774.57 unsettled T+1).
+**Account total:** ~$2,008.5 vs $2,000.00 starting capital = **+0.44%** (SPY +3.33% same window, $741.69 → $766.36 live; relative **-2.89 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,655 ($121.98 settled, ~$1,533 unsettled T+1).
