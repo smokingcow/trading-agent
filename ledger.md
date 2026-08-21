@@ -46,9 +46,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-21 (17:08 UTC run — Run 29)
+## Position and P&L summary as of 2026-08-21 (19:16 UTC run — Run 30)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (this run: MNST +$22.09, VTR +$22.02, net +$44.11). **Action this run:** two take-profit exits — **MNST and VTR both crossed their +6% take-profit** and were sold via limit order near current price. MNST filled $47.9813 (8 sh; +6.11% on the $45.22 split-adjusted basis), VTR filled $93.6300 (4 sh; +6.25%). No new buy (Step 5a — settled cash $121.98 < 20% threshold; both TP proceeds are unsettled T+1).
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 30, 19:16 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. No new buy (Step 5a — settled buying power $121.98 < 20% of capital $401.71; today's four sale proceeds $1,532.94 unsettled T+1). This run followed the 17:08 UTC Run 29 (MNST/VTR take-profit exits) with no intervening fills.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -67,14 +67,14 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-21 17:08 UTC):** portfolio **+0.44%** (total capital ~$2,008.5 vs $2,000), SPY **+3.33%** ($741.69 → $766.36 live), relative **-2.89 pp**. Still a beta drag since inception, but the gap narrowed as the two TP wins were realized against a soft tape. Underperformance tripwire not flagged (-2.89pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-21 19:16 UTC):** portfolio **+0.43%** (total capital $2,008.57 vs $2,000), SPY **+3.27%** ($741.69 → $765.91 live), relative **-2.84 pp**. Still a beta drag since inception. Underperformance tripwire not flagged (-2.84pp < -10pp threshold).
 
-**Open positions:** 1 (WMB only), cost basis $366.20, plus ~$1,655 cash ($121.98 settled + ~$1,533 unsettled T+1 sale proceeds from ACIW/XYZ/MNST/VTR). *(Snapshot at the 2026-08-21 17:08 UTC run, market open.)*
+**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash ($121.98 settled + $1,532.94 unsettled T+1 sale proceeds from ACIW/XYZ/MNST/VTR). *(Snapshot at the 2026-08-21 19:16 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $70.72 | $67.38 | $77.63 | 2026-08-19 | 3 |
+| WMB | 5 | $73.2399 | $70.735 | $67.38 | $77.63 | 2026-08-19 | 3 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.72 (-3.4% below cost, 3 trading sessions). **No new buy:** Step 5a closed the new-buy path — settled cash $121.98 (both TP proceeds and this morning's ACIW/XYZ proceeds are all unsettled T+1) < 20% of capital (~$402). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (today's realized +$40.71, positive). Wash-sale blocklist remains **EIX, PBF, ACIW** (ACIW sold at a loss 08-21, blocked ~30 days through 2026-09-20). MNST and VTR sold at gains today, so no wash-sale restriction on them.
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.735 (-3.4% below cost, 3 trading sessions). **No new buy:** Step 5a closed the new-buy path — settled buying power $121.98 (today's four sale proceeds all unsettled T+1) < 20% of capital ($401.71). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (today's realized +$40.71, positive). Wash-sale blocklist remains **EIX, PBF, ACIW** (ACIW sold at a loss 08-21, blocked ~30 days through 2026-09-20). MNST and VTR sold at gains 08-21, so no wash-sale restriction on them.
 
-**Account total:** ~$2,008.5 vs $2,000.00 starting capital = **+0.44%** (SPY +3.33% same window, $741.69 → $766.36 live; relative **-2.89 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,655 ($121.98 settled, ~$1,533 unsettled T+1).
+**Account total:** $2,008.57 vs $2,000.00 starting capital = **+0.43%** (SPY +3.27% same window, $741.69 → $765.91 live; relative **-2.84 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 ($121.98 settled, $1,532.94 unsettled T+1).
