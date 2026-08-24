@@ -46,9 +46,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-21 (19:16 UTC run — Run 30)
+## Position and P&L summary as of 2026-08-24 (14:10 UTC run — Run 31)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 30, 19:16 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. No new buy (Step 5a — settled buying power $121.98 < 20% of capital $401.71; today's four sale proceeds $1,532.94 unsettled T+1). This run followed the 17:08 UTC Run 29 (MNST/VTR take-profit exits) with no intervening fills.
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 31, 14:10 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. **New-buy path was OPEN this run** for the first time since 08-19 — cash is now fully settled ($1,654.92, unsettled_funds=0), clearing Step 5a (settled ≥ 20% of capital $401.08), and Step 5b regime gate passed (SPY $762.79 > 200d EMA $710.57). Scan returned 168 dips but **zero passed the buy filter** — no new buy (criteria not loosened; see below).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -67,14 +67,26 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-21 19:16 UTC):** portfolio **+0.43%** (total capital $2,008.57 vs $2,000), SPY **+3.27%** ($741.69 → $765.91 live), relative **-2.84 pp**. Still a beta drag since inception. Underperformance tripwire not flagged (-2.84pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-24 14:10 UTC):** portfolio **+0.27%** (total capital $2,005.42 vs $2,000), SPY **+2.84%** ($741.69 → $762.79 live), relative **-2.57 pp**. Still a beta drag since inception. Underperformance tripwire not flagged (-2.57pp < -10pp threshold).
 
-**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash ($121.98 settled + $1,532.94 unsettled T+1 sale proceeds from ACIW/XYZ/MNST/VTR). *(Snapshot at the 2026-08-21 19:16 UTC run, market open.)*
+**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash (all settled — unsettled_funds=0). *(Snapshot at the 2026-08-24 14:10 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $70.735 | $67.38 | $77.63 | 2026-08-19 | 3 |
+| WMB | 5 | $73.2399 | $70.10 | $67.38 | $77.63 | 2026-08-19 | 4 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.735 (-3.4% below cost, 3 trading sessions). **No new buy:** Step 5a closed the new-buy path — settled buying power $121.98 (today's four sale proceeds all unsettled T+1) < 20% of capital ($401.71). Steps 5b–8 (regime gate, scan) not reached. Circuit breaker not tripped (today's realized +$40.71, positive). Wash-sale blocklist remains **EIX, PBF, ACIW** (ACIW sold at a loss 08-21, blocked ~30 days through 2026-09-20). MNST and VTR sold at gains 08-21, so no wash-sale restriction on them.
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.10 (-4.3% below cost, 4 trading sessions).
 
-**Account total:** $2,008.57 vs $2,000.00 starting capital = **+0.43%** (SPY +3.27% same window, $741.69 → $765.91 live; relative **-2.84 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 ($121.98 settled, $1,532.94 unsettled T+1).
+**No new buy — scan ran, zero candidates passed the buy filter.** With cash settled, Steps 5a/5b both cleared and the scan (Dip-Buy Loop Screen) returned **168 dips**, heavily concentrated in **semiconductors** during a documented sector bear market (PHLX SOX -20%+) with **NVDA reporting 08-26** (sector-wide gap risk). Biggest-dip-first evaluation:
+- **MXL** -6.77% ($62.04, above 200d EMA $53.99 → passed Gate D) — **SKIP**: crashed -21.5% post-earnings 07-24 on soft guidance despite an EPS beat, -32% over the past month; own downtrend + semi sector bear + NVDA gap risk. Not a dip in an intact uptrend.
+- **AMKR / GFS / RMBS** — failed Gate D (below 200d EMA; sector downtrend).
+- **KTOS / AAON** — failed Gate D (below 200d EMA).
+- **IREN** — failed Gate A (earnings 08-27, within 14 days).
+- **SON** -3.8% ($57.20, above 200d EMA → passed gates) — **SKIP**: weak demand, freight/energy margin pressure, repeatedly guided to low-end EPS; fundamental deterioration, not clean sentiment.
+- **MP** -3.85% ($57.88, above 200d EMA → passed gates) — **SKIP**: Q2 2026 EPS miss (-0.01 vs +0.02 est, reported 08-06), trailing P/E -171.6 (unprofitable), P/B 5.46, 52-wk range $37.81-$100.25; recent miss + stretched valuation.
+- **TEM / IONQ / DFTX / ASTS / CRWV / RKLB / TXG / CRSP** — SKIP (unprofitable speculative / idiosyncratic momentum names).
+- **PBF** — wash-sale blocked (sold -9.61% 08-06) and Energy sector (already hold WMB).
+
+Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW**. Zero candidates passed the buy filter — a valid, normal no-action outcome; criteria were **not** loosened.
+
+**Account total:** $2,005.42 vs $2,000.00 starting capital = **+0.27%** (SPY +2.84% same window, $741.69 → $762.79 live; relative **-2.57 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 (all settled).
