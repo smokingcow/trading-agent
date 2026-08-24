@@ -46,9 +46,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-24 (14:10 UTC run — Run 31)
+## Position and P&L summary as of 2026-08-24 (17:15 UTC run — Run 32)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 31, 14:10 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. **New-buy path was OPEN this run** for the first time since 08-19 — cash is now fully settled ($1,654.92, unsettled_funds=0), clearing Step 5a (settled ≥ 20% of capital $401.08), and Step 5b regime gate passed (SPY $762.79 > 200d EMA $710.57). Scan returned 168 dips but **zero passed the buy filter** — no new buy (criteria not loosened; see below).
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 32, 17:15 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. New-buy path OPEN (settled cash $1,654.92 ≥ 20% of capital $402.0; SPY $764.47 > 200d EMA $710.02 → regime gate passed). Scan returned 200+ dips but **zero passed the buy filter** — no new buy (criteria not loosened; see below).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -67,26 +67,24 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-24 14:10 UTC):** portfolio **+0.27%** (total capital $2,005.42 vs $2,000), SPY **+2.84%** ($741.69 → $762.79 live), relative **-2.57 pp**. Still a beta drag since inception. Underperformance tripwire not flagged (-2.57pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-24 17:15 UTC):** portfolio **+0.50%** (total capital $2,009.97 vs $2,000), SPY **+3.07%** ($741.69 → $764.47 live), relative **-2.57 pp**. Still a beta drag since inception. Underperformance tripwire not flagged (-2.57pp < -10pp threshold).
 
-**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash (all settled — unsettled_funds=0). *(Snapshot at the 2026-08-24 14:10 UTC run, market open.)*
+**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash (all settled — unsettled_funds=0). *(Snapshot at the 2026-08-24 17:15 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $70.10 | $67.38 | $77.63 | 2026-08-19 | 4 |
+| WMB | 5 | $73.2399 | $71.01 | $67.38 | $77.63 | 2026-08-19 | 4 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $70.10 (-4.3% below cost, 4 trading sessions).
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $71.01 (-3.0% below cost, 4 trading sessions; firmer than the 14:10 run's $70.10).
 
-**No new buy — scan ran, zero candidates passed the buy filter.** With cash settled, Steps 5a/5b both cleared and the scan (Dip-Buy Loop Screen) returned **168 dips**, heavily concentrated in **semiconductors** during a documented sector bear market (PHLX SOX -20%+) with **NVDA reporting 08-26** (sector-wide gap risk). Biggest-dip-first evaluation:
-- **MXL** -6.77% ($62.04, above 200d EMA $53.99 → passed Gate D) — **SKIP**: crashed -21.5% post-earnings 07-24 on soft guidance despite an EPS beat, -32% over the past month; own downtrend + semi sector bear + NVDA gap risk. Not a dip in an intact uptrend.
-- **AMKR / GFS / RMBS** — failed Gate D (below 200d EMA; sector downtrend).
-- **KTOS / AAON** — failed Gate D (below 200d EMA).
-- **IREN** — failed Gate A (earnings 08-27, within 14 days).
-- **SON** -3.8% ($57.20, above 200d EMA → passed gates) — **SKIP**: weak demand, freight/energy margin pressure, repeatedly guided to low-end EPS; fundamental deterioration, not clean sentiment.
-- **MP** -3.85% ($57.88, above 200d EMA → passed gates) — **SKIP**: Q2 2026 EPS miss (-0.01 vs +0.02 est, reported 08-06), trailing P/E -171.6 (unprofitable), P/B 5.46, 52-wk range $37.81-$100.25; recent miss + stretched valuation.
-- **TEM / IONQ / DFTX / ASTS / CRWV / RKLB / TXG / CRSP** — SKIP (unprofitable speculative / idiosyncratic momentum names).
-- **PBF** — wash-sale blocked (sold -9.61% 08-06) and Energy sector (already hold WMB).
+**No new buy — scan ran, zero candidates passed the buy filter.** New-buy path was OPEN (settled cash $1,654.92 ≥ 20% of capital $402.0; regime gate passed, SPY $764.47 > 200d EMA $710.02). The scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K, %chg<0) returned **202 dips**. The tape was a **policy shock, not a broad selloff** — SPY only -0.16% on the day — with losses concentrated in **tariff/trade-sensitive cyclicals** after Trump announced **50% tariffs on ~$20B of Canadian exports**. Biggest-dip-first evaluation of the non-speculative names (all four below passed Gates A/B/C/D — no earnings ≤14d, not wash-sale-blocked, spread <0.2%, above 200d EMA):
+- **MGA** -6.9% ($68.04, biggest real-company dip; Canadian auto-parts) — **SKIP**: today's drop is the direct hit from the new **50% Canadian tariff** (US tariffs already cost Magna ~$160M last year). That is a country/company-specific **margin/fundamental headwind**, not clean sentiment — and explains why MGA fell harder than US-based BWA. Beat Q2 (1.86 vs 1.51) but next report 10/30. Err-toward-skipping on fundamental worsening.
+- **DAR** -4.84% ($62.56; renewable diesel/food) — **SKIP**: down ~10% over two sessions (-5.4% Fri + -4.8% today) on **rising costs, flat feedstock throughput, capacity constraints, Diamond Green Diesel policy uncertainty through 2027, and insider selling** — forward margin/policy deterioration, not a one-day sentiment dip. Huge Q2 beat (2.41 vs 1.31) but the concern is forward margins.
+- **BWA** -4.77% ($64.55; US auto-parts) — **SKIP (closest call)**: fundamentally intact (beat Q2 1.42 vs 1.27, +$1B buyback, EV-propulsion wins, analyst PTs raised to $85 vs $64.55, +59% 1yr, intact uptrend) and its dip is sector-sympathy to the auto-supplier selloff. But BWA sits **directly in the fundamental transmission path** of the shock — auto tariffs raise its input costs and the "lower auto production" view cuts its volumes — unlike prior successful buys (WMB fee-based Transco, VTR peer-dilution event) which were *insulated* from the driver. Not clean sentiment noise; skip.
+- **KNX** -3.90% ($68.81; trucking) — **SKIP**: freight recession, P/E 272 on trough earnings, Q1 2026 miss (0.09 vs 0.22); trade-war escalation cuts freight volumes → fundamental/cyclical demand concern.
+- Speculative/unprofitable momentum names (**TEM, ASTS, IONQ, OKLO, RKLB, CRSP, SYM**) and semiconductors (semi sector bear) — SKIP (don't fit "macro/sentiment dip on a sound, insulated name in an uptrend").
+- **PBF** -5.37% — wash-sale blocked (sold -9.61% 08-06) and Energy sector (already hold WMB).
 
-Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW**. Zero candidates passed the buy filter — a valid, normal no-action outcome; criteria were **not** loosened.
+Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW**. Zero candidates passed the buy filter — a valid, normal no-action outcome on a tariff-policy-shock day; criteria were **not** loosened.
 
-**Account total:** $2,005.42 vs $2,000.00 starting capital = **+0.27%** (SPY +2.84% same window, $741.69 → $762.79 live; relative **-2.57 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 (all settled).
+**Account total:** $2,009.97 vs $2,000.00 starting capital = **+0.50%** (SPY +3.07% same window, $741.69 → $764.47 live; relative **-2.57 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 (all settled).
