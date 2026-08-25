@@ -46,9 +46,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-24 (19:19 UTC run — Run 33)
+## Position and P&L summary as of 2026-08-25 (14:15 UTC run — Run 34)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 33, 19:19 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. New-buy path OPEN (settled cash $1,654.92 ≥ 20% of capital $402.09; SPY $764.01 > 200d EMA $710.64 → regime gate passed). Scan returned 183 dips but **zero passed the buy filter** — no new buy (criteria not loosened; see below).
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 34, 14:15 UTC):** none. WMB (only open position) held — no stop-loss / take-profit / max-hold trigger. New-buy path OPEN (settled cash $1,654.92 ≥ 20% of capital $402.70; SPY $765.35 > 200d EMA $711.16 → regime gate passed). Scan returned 238 dips but **zero passed the buy filter** — no new buy (criteria not loosened; see below).
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -69,13 +69,13 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Portfolio vs benchmark since inception (2026-07-30 → 2026-08-24 19:19 UTC):** portfolio **+0.52%** (total capital $2,010.47 vs $2,000), SPY **+3.01%** ($741.69 → $764.01 live), relative **-2.49 pp**. Still a beta drag since inception, but the gap continues to narrow (was -2.57pp at the 14:10 and 17:15 runs). Underperformance tripwire not flagged (-2.49pp < -10pp threshold).
 
-**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash (all settled — unsettled_funds=0). *(Snapshot at the 2026-08-24 19:19 UTC run, market open.)*
+**Open positions:** 1 (WMB only), cost basis $366.20, plus $1,654.92 cash (all settled — unsettled_funds=0). *(Snapshot at the 2026-08-25 14:15 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $71.08 | $67.38 | $77.63 | 2026-08-19 | 4 |
+| WMB | 5 | $73.2399 | $71.76 | $67.38 | $77.63 | 2026-08-19 | 5 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $71.08 (-2.95% below cost, 4 trading sessions).
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $71.76 (-2.02% below cost, 5 trading sessions).
 
 **No new buy — scan ran, zero candidates passed the buy filter.** New-buy path was OPEN (settled cash $1,654.92 ≥ 20% of capital $402.09; regime gate passed, SPY $764.01 > 200d EMA $710.64). The scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K, %chg<0) returned **183 dips**. Today's decliners were concentrated in **Technology and Energy (both -1%+)** while 8 of 11 sectors closed green (staples, financials, consumer services, utilities up) — a Tech+Energy risk-off ahead of **Nvidia earnings (08-26)**, plus lingering US-Canada tariff and Iran ("economic asphyxiation") geopolitical noise. SPY -0.22% on the day. Biggest-dip-first evaluation after mechanical Gates A/B/C/D (earnings ≤14d, wash-sale, spread <1%, 200d-EMA trend). **CE and WLK failed Gate D** (chemicals below 200d EMA); the 10 survivors all cleared A/B/C/D but each failed the buy filter:
 - **OII** -4.99% ($50.35; offshore energy/subsea robotics) — **SKIP (biggest dip)**: beat Q2 +40% (EPS $0.63 vs $0.45) and cheap (P/E 15), but **down ~13% over August** (momentum unwind from its 08-17 52-wk high) and dipping *on* today's **energy-sector selloff** (Iran/oil repositioning). Falling knife on the driver — the exact EIX/PBF pattern (energy names bought as dips that kept falling and stopped out at -9.4%/-9.6%).
@@ -92,4 +92,6 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW**. Zero candidates passed the buy filter — a valid, normal no-action outcome (third consecutive no-action run today on a Tech+Energy risk-off tape into NVDA earnings); criteria were **not** loosened.
 
-**Account total:** $2,010.47 vs $2,000.00 starting capital = **+0.52%** (SPY +3.01% same window, $741.69 → $764.01 live; relative **-2.49 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 (all settled).
+**Account total:** $2,013.52 vs $2,000.00 starting capital = **+0.68%** (SPY +3.19% same window, $741.69 → $765.35 live; relative **-2.51 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash $1,654.92 (all settled).
+
+**Run 34 (2026-08-25 14:15 UTC) no-buy detail:** 238 dips scanned. Tape was a sector risk-off (SPY UP +0.25% intraday; dips concentrated in commodities/energy/materials/semis). After Gates A/B/C/D, only DAR and BJ survived as non-commodity/non-energy names in uptrends, and both failed the buy filter: **DAR** ($59.31, -4.8%) a falling knife down ~15% in 5 days off its 08-20 52wk high — overextended commodity/biofuel-policy cyclical (GF Value $41.52 < price), margin-durability + regulatory concerns; **BJ** ($96.06, -2.5%, closest call) beat Q2 +16% and raised FY guidance but is repeatedly punished on margin deterioration (gross margin down YoY; fell after 3 of last 4 beats) and was dipping idiosyncratically against an up market → margin-deterioration flag + err-toward-skip. Larger dips were all commodity/energy/semi (systematic skips) or earnings-excluded (MDT 09-01, ESTC 08-27, FRO 08-28). Wash-sale blocklist EIX/PBF/ACIW. No criteria loosened.
