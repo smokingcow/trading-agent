@@ -47,9 +47,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-25 (19:18 UTC run — Run 36)
+## Position and P&L summary as of 2026-08-26 (14:14 UTC run — Run 37)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 36, 19:18 UTC): NO ACTION** — WMB and LTH both held (no SL/TP/max-hold trigger), and no new buy: the scan returned 203 dips and zero survivors cleared both the mechanical gates and the buy filter. (LTH was bought earlier the same day at the 17:14 UTC Run 35; this later run found no additional qualifying dip.)
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 37, 14:14 UTC): NO ACTION** — WMB and LTH both held (no SL/TP/max-hold trigger), and no new buy: the scan returned 147 dips and zero survivors cleared both the mechanical gates and the buy filter on a ~flat tape ahead of NVDA earnings tonight.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -68,34 +68,31 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-25 19:18 UTC):** portfolio **+0.81%** (total capital $2,016.29 vs $2,000), SPY **+3.16%** ($741.69 → $765.11 live), relative **-2.34 pp**. Beta drag since inception, holding roughly steady (was -2.48pp at the 17:14 run; the small improvement is WMB/LTH ticking up into the close). Underperformance tripwire not flagged (-2.34pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-26 14:14 UTC):** portfolio **+1.53%** (total capital $2,030.54 vs $2,000), SPY **+3.35%** ($741.69 → $766.57 live), relative **-1.82 pp**. Beta drag since inception, narrowing (was -2.34pp at the 08-25 19:18 run; WMB and LTH both green intraday). Underperformance tripwire not flagged (-1.82pp < -10pp threshold).
 
-**Open positions:** 2 — WMB and LTH — plus ~$1,255.41 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-25 19:18 UTC run, market open.)*
+**Open positions:** 2 — WMB and LTH — plus ~$1,255.41 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-26 14:14 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $71.87 | $67.38 | $77.63 | 2026-08-19 | 5 |
-| LTH | 9 | $44.3899 | $44.60 | $40.84 | $47.05 | 2026-08-25 | 0 (bought today) |
+| WMB | 5 | $73.2399 | $74.15 | $67.38 | $77.63 | 2026-08-19 | 6 |
+| LTH | 9 | $44.3899 | $44.92 | $40.84 | $47.05 | 2026-08-25 | 1 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $71.87 (-1.87% below cost, 5 trading sessions).
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $74.15 (+1.24% above cost, ~6 trading sessions).
 
-**LTH held** — bought earlier today (17:14 Run 35) at $44.3899; current $44.60 (+0.47%), 0 trading days held. No trigger. SL $40.84, TP $47.05.
+**LTH held** — bought 08-25 (17:14 Run 35) at $44.3899; current $44.92 (+1.19%), 1 trading day held. No trigger. SL $40.84, TP $47.05.
 
-**Buy detail (Run 36):** scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K/30d, %chg<0) returned **203 dips**. Tape: broad market UP (SPY +0.2%, $765.11) with idiosyncratic single-name selloffs of -3% to -6% — a risk-off in specific names/sectors ahead of NVDA earnings (08-26), not a broad decline. Biggest-dip-first after mechanical Gates A/B/C/D (earnings ≤14d, wash-sale, spread <1%, 200d-EMA trend). Every survivor failed the buy filter:
-- **RBRK** -6.06% ($92.1) — **Gate A**: reports 08-27. Excluded.
-- **BTSG** -4.82% ($56.62; Health Services) — cleared all gates (Gate A none in 14d; Gate B prior sale was a +0.44% GAIN not a loss; spread 0.11%; +11% above 200d EMA $50.98). **Buy filter SKIP:** its ~-23% slide off the 07-27 high is a post-earnings de-rating — BTSG fell ~17.5% on its Q2 report despite a beat + raised guidance, on valuation concerns AND stagnant/margin-pressure flags ("questions about cost structure"). Margin deterioration is an explicit skip condition (same call as BJ); err-toward-skip. Falling knife, not a revertable one-day dip.
-- **MLI** -4.66% ($60.50; copper/brass mfr) — cleared gates but only razor-thin on Gate D (sitting *exactly* on its 200d EMA $60.38, +0.2%). **SKIP:** commodity cyclical that rode copper up (sales +25% "as copper climbed") now rolling over -5.8% on the week with no company catalyst; buying a metals cyclical at its long-term trend line with a reversing copper tailwind is the EIX/PBF setup. Unsure → treat as fundamental/skip.
-- **ACM** -4.39% ($62.14) — near 52wk low $60.35, -54% off its high — structural downtrend. **Gate D fail.**
-- **TTAN** -4.23% — reports 09-08 (≤14d). **Gate A.**
-- **KRMN** -4.05% ($49.29) — busted IPO near 52wk low $43.68, PE 183, -58% off high — downtrend. **Gate D fail.**
-- **SQM/VIST/APA/MTDR/LYB** (-3.0 to -3.8%) — lithium/oil/chemicals **commodity/energy** selloff. SKIP.
-- **DECK** -3.66% — **Gate D fail** (Run 35: -15% below 200d EMA).
-- **PBF** -3.48% — **Gate B wash-sale** (sold at loss 08-06).
-- **ESTC** -3.35% (rpt 08-27) / **DOCU** -3.21% (rpt 09-03) — **Gate A.**
-- **COO** -3.11% ($73.4) — reports 09-09; literally just outside Gate A (09-08) but a 12-trading-day max-hold from today (~09-11) would span that earnings report — the exact gap risk Gate A guards against; rich PE 64, no uptrend-dip thesis. SKIP.
-- **FIS** -3.09% ($40.12) — near 52wk low $37.42, -44% YoY, PE 6.4 value-trap — structural downtrend. **Gate D fail.**
-- **MKC** (Run 34: below 200d EMA, Gate D) / **BJ** (Run 34/35: margin-deterioration skip) — carried forward.
+**Buy detail (Run 37):** scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K/30d, %chg<0) returned **147 dips**. Tape: broad market ~flat (SPY +0.09%, $766.57) with idiosyncratic single-name selloffs — a risk-off in specific names ahead of NVDA earnings (08-26 pm), not a broad decline. Biggest-dip-first after mechanical Gates A/B/C/D (earnings ≤14d, wash-sale, spread <1%, 200d-EMA trend). Every survivor failed the buy filter:
+- **SYRE** -11.9% ($94.6; Health Technology) — clinical-stage biotech (Pegzilarginase in Phase 3 pivotal), 52wk high set just 08-19. A -12% single-day move in a Phase-3 binary name = clinical/offering gap event, the exact gap risk the loop avoids. **Buy filter SKIP** (fundamental/binary).
+- **ZM** -5.5% ($95.3; Technology Services) — cleared **ALL** gates (above 200d EMA $90.93, spread 0.17%, next earnings 11-23, no wash-sale). **Buy filter SKIP:** reported Q2 FY27 last night (08-25 pm) — a double-beat (rev $1.28B vs $1.27B, EPS $1.55 vs $1.48) — but sold off on **soft forward guidance** (Q3 EPS guide $1.46-1.48 light; FY revenue raised only ~$5M at midpoint = "AI growth leaves revenue outlook nearly flat"). Guidance disappointment = fundamental worsening + a post-earnings gap; explicit skip condition.
+- **BSX** -4.3% ($47.7; Health Technology) — **Gate D fail** ($47.71 < 200d EMA $64.61; -56% off 52wk high, near 52wk low $42.20 — structural downtrend).
+- **GDDY** -4.3% ($95.4; Technology Services) — **Gate D fail** ($95.42 < 200d EMA $102.38).
+- **FRO** -3.9% ($41.8) — **Gate A** (reports 08-28) + tanker/energy commodity.
+- **FER** -3.6% ($60.8; Industrial Services) — **Gate D fail** ($60.79 < 200d EMA $64.63).
+- **IREN** -3.15% ($40.9) — **Gate A** (reports 08-27) + crypto miner.
+- **CRSP** -2.4% ($59.4; Biotechnology) — cleared gates (above 200d EMA $52.63, spread 0.20%, no earnings ≤14d). **Buy filter SKIP:** no clean single-day catalyst; backdrop is fundamental worsening — slow Casgevy commercial rollout, widening net loss (-$581.6M/yr), negative P/E, -12% on the month. Biotech binary risk; err-toward-fundamental/skip.
+- **MXL** -2.5% ($64.1; Semiconductors) — cleared gates (above 200d EMA $54.20, spread 0.36%). **Buy filter SKIP:** down -23% on the month / -50% from its 06-30 peak $128.30, on valuation reset (GF value ~$20), active insider selling (Litchfield sold ~102k sh today), Silicon Motion legal overhang, and working-capital pressure. Falling knife with fundamental concerns (EIX/PBF setup).
+- Remaining dips all <2.3% (VAL/AA/PAAS/GFI/BHP commodity, TXG/TVTX biotech, IONQ speculative, NTNX Gate A rpt 08-26, CTSH/YUMC/LVS/IBKR/CAVA shallow) — none a bigger justified dip than those rejected above.
 
-Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW**. Criteria were **not** loosened — no survivor cleared the standard buy filter, a valid "no action" outcome (not forced given LTH was already added at 17:14).
+Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW** (none appeared in the dip list). Sector cap: no collision anyway (holdings WMB=Energy, LTH=Consumer Services). Criteria were **not** loosened — no survivor cleared the standard buy filter, a valid "no action" outcome.
 
-**Account total:** $2,016.29 vs $2,000.00 starting capital = **+0.81%** (SPY +3.16% same window, $741.69 → $765.11 live; relative **-2.34 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,255.41 (all settled), WMB + LTH open.
+**Account total:** $2,030.54 vs $2,000.00 starting capital = **+1.53%** (SPY +3.35% same window, $741.69 → $766.57 live; relative **-1.82 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,255.41 (all settled), WMB + LTH open.
