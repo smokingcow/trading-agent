@@ -47,9 +47,9 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 ---
 
-## Position and P&L summary as of 2026-08-26 (17:13 UTC run — Run 38)
+## Position and P&L summary as of 2026-08-26 (19:19 UTC run — Run 39)
 
-**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 38, 17:13 UTC): NO ACTION** — WMB and LTH both held (no SL/TP/max-hold trigger), and no new buy: the scan returned 178 dips and zero survivors cleared both the mechanical gates and the buy filter. Two names (ETSY, CVNA) cleared all four mechanical gates but failed the buy filter on company-specific/fundamental drivers (ETSY: 12% layoffs + declining active buyers + downgrades; CVNA: Mark Walter DOJ-probe overhang + margin-outlook reset). Consumer Services dips (QSR/YUMC/FLUT) blocked by the sector cap (held LTH). **Sector correction:** WMB is **Industrial Services** (Oil & Gas Pipelines) per Robinhood fundamentals, not "Energy" as earlier prose stated; held sectors are Industrial Services (WMB) + Consumer Services (LTH).
+**Realized:** 9 closed round-trips — **4 take-profit (YES)**, 2 stop-loss (NO), 3 timeout. Total realized P&L **+$21.11** (unchanged this run — no exits). **Action this run (Run 39, 19:19 UTC): NO ACTION** — WMB and LTH both held (no SL/TP/max-hold trigger), and no new buy: the scan returned 175 dips and zero survivors cleared both the mechanical gates and the buy filter. The one genuinely fresh gate-clearing candidate, **LTM** (LATAM Airlines, -3.58%), cleared all four mechanical gates but failed the buy filter (falling-knife in a persistent multi-week downtrend + jet-fuel margin headwind + slight Q2 miss + overvaluation; no clean single-day sentiment catalyst on an up-market day). ETSY/CVNA again cleared all gates but failed the buy filter on unchanged structural drivers (freshly evaluated Run 38, 2h prior). Consumer Services dips (FLUT/YUMC/QSR) blocked by the sector cap (held LTH). Held sectors: WMB = **Industrial Services** (Oil & Gas Pipelines), LTH = Consumer Services.
 
 | Ticker | Entry | Exit | Held | Return | SPY same window | **Excess** | Exit trigger |
 |---|---|---|---|---|---|---|---|
@@ -68,20 +68,22 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Slippage:** today's two take-profit limit sells got price improvement — MNST filled $47.9813 vs a $47.98 bid / $47.95 limit, VTR $93.6300 vs a $93.61 bid / $93.55 limit. Clean fills, no adverse slippage (limit orders, non-stressed exits).
 
-**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-26 17:13 UTC):** portfolio **+1.40%** (total capital $2,027.97 vs $2,000), SPY **+3.15%** ($741.69 → $765.04 live), relative **-1.75 pp**. Beta drag since inception, still narrowing (was -1.82pp at the 08-26 14:14 run). Underperformance tripwire not flagged (-1.75pp < -10pp threshold).
+**Portfolio vs benchmark since inception (2026-07-30 → 2026-08-26 19:19 UTC):** portfolio **+1.58%** (total capital $2,031.66 vs $2,000), SPY **+3.41%** ($741.69 → $766.99 live), relative **-1.83 pp**. Beta drag since inception, roughly flat vs the 17:13 run (-1.75pp) as SPY firmed intraday. Underperformance tripwire not flagged (-1.83pp < -10pp threshold).
 
-**Open positions:** 2 — WMB and LTH — plus ~$1,255.41 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-26 17:13 UTC run, market open.)*
+**Open positions:** 2 — WMB and LTH — plus ~$1,255.41 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-26 19:19 UTC run, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $73.98 | $67.38 | $77.63 | 2026-08-19 | 6 |
-| LTH | 9 | $44.3899 | $44.73 | $40.84 | $47.05 | 2026-08-25 | 2 |
+| WMB | 5 | $73.2399 | $74.23 | $67.38 | $77.63 | 2026-08-19 | 6 |
+| LTH | 9 | $44.3899 | $45.00 | $40.84 | $47.05 | 2026-08-25 | 2 |
 
-**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $73.98 (+1.01% above cost, ~6 trading sessions).
+**WMB held** — none of -8% stop ($67.38), +6% TP ($77.63), or 12-day max hold triggered: current $74.23 (+1.35% above cost, ~6 trading sessions).
 
-**LTH held** — bought 08-25 (17:14 Run 35) at $44.3899; current $44.73 (+0.77%), 2 trading days held. No trigger. SL $40.84, TP $47.05.
+**LTH held** — bought 08-25 (17:14 Run 35) at $44.3899; current $45.00 (+1.37%), 2 trading days held. No trigger. SL $40.84, TP $47.05.
 
-**Buy detail (Run 38):** scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K/30d, %chg<0) returned **178 dips** on a ~flat tape (SPY -0.11%) the morning after NVDA earnings. Biggest-dip-first after mechanical Gates A/B/C/D:
+**Buy detail (Run 39, 19:19 UTC):** scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K/30d, %chg<0) returned **175 dips** on a ~flat-to-up tape (SPY +0.14%, $766.99). Biggest-dip-first after Gates A/B/C/D: SYRE -11.2% biotech Phase-3 binary SKIP; OKLO -6.8%/IONQ -4.2%/ASTS -3.3% pre-revenue speculative SKIP; ZM -6.5% guidance-cut carry SKIP; FRO -4.9% Gate A (rpt 08-28); FER -4.8% Gate D fail + WMB sector collision; MXL -4.6% falling-knife carry SKIP; **LTM -3.58% ($52.78, Transportation/Airlines) — the one fresh candidate to clear ALL four gates** (earnings 11-13, no wash-sale, spread 0.09%, $52.78 > 200d EMA $51.00) **but buy-filter SKIP:** no clean single-day sentiment/macro catalyst on an up-market day; a continuation of a persistent multi-week slide (~-4.7% prior week, ~25% off the 02-03 $70.42 high), with a mgmt-cited sharp jet-fuel cost spike (margin headwind), a slight Q2 08-04 miss ($0.436 vs $0.44), and an overvaluation flag (GF Value ~$41.56), only barely above its 200d EMA = falling-knife/margin-deterioration (EIX/PBF/MXL setup), err-toward-fundamental/skip; GDDY -3.6% Gate D fail (<EMA $102.4); NVO -3.1% pharma falling-knife SKIP; commodity knives (AA/B/BHP/PAAS/GFI/EGO/VAL/MP) SKIP; BSX -2.9% Gate D fail (near 52wk low); ETSY -2.9% & CVNA -2.6% cleared gates, buy-filter SKIP on unchanged structural drivers (Run 38 carry); CRSP -2.6% biotech binary SKIP; FLUT/YUMC/QSR Consumer Services blocked by sector cap (held LTH). Circuit breaker not tripped (no realized trades today). Wash-sale blocklist EIX/PBF/ACIW (none in dip list). Criteria NOT loosened — valid no-action.
+
+**Prior-run buy detail (Run 38):** scan returned **178 dips** on a ~flat tape (SPY -0.11%) the morning after NVDA earnings. Biggest-dip-first after mechanical Gates A/B/C/D:
 - **SYRE** -13.4% ($92.9; Health Tech) — clinical-stage biotech, Phase 3 binary/clinical gap event. **SKIP.**
 - **ZM** -6.6% ($94.3) — post-earnings guidance-cut carry from Run 37 (soft Q3/FY guide on 08-25 double-beat). **SKIP.**
 - **OKLO** -6.2% / **IONQ** -4.3% / **ASTS** -2.7% / **CRCL** -3.8% — speculative pre-revenue (nuclear/quantum/satellite/stablecoin). **SKIP.**
@@ -113,4 +115,4 @@ Circuit breaker not tripped (no realized trades today). Wash-sale blocklist rema
 
 Circuit breaker not tripped (no realized trades today). Wash-sale blocklist remains **EIX, PBF, ACIW** (none appeared in the dip list). Sector cap: no collision anyway (holdings WMB=Energy, LTH=Consumer Services). Criteria were **not** loosened — no survivor cleared the standard buy filter, a valid "no action" outcome.
 
-**Account total:** $2,027.97 vs $2,000.00 starting capital = **+1.40%** (SPY +3.15% same window, $741.69 → $765.04 live; relative **-1.75 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,255.41 (all settled), WMB + LTH open.
+**Account total:** $2,031.66 vs $2,000.00 starting capital = **+1.58%** (SPY +3.41% same window, $741.69 → $766.99 live; relative **-1.83 pp**). Kill-switch threshold is $1,600 (-20%); not close. Cash ~$1,255.41 (all settled), WMB + LTH open.
