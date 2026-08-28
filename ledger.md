@@ -75,17 +75,17 @@ Rows dated 2026-07-31 through 2026-08-07 were **reconstructed from `get_equity_o
 
 **Portfolio vs benchmark since inception (2026-07-30 → 2026-08-27 17:13 UTC):** portfolio **+1.19%** (total capital $2,023.83 vs $2,000), SPY **+4.12%** ($741.69 → $772.225 live), relative **-2.93 pp**. Beta drag since inception (SPY rose further intraday since the 14:15 run). Underperformance tripwire not flagged (-2.93pp < -10pp threshold).
 
-**Open positions:** 5 — WMB, LTH, BBY, TIGO, and CGNX (bought this run) — plus ~$40.33 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-28 17:13 UTC run — Run 44, market open.)*
+**Open positions:** 5 — WMB, LTH, BBY, TIGO, CGNX — plus ~$40.32 cash (all settled, unsettled_funds=0). *(Snapshot at the 2026-08-28 19:16 UTC run — Run 45, market open.)*
 
 | Ticker | Qty | Avg cost | Current | SL (×0.92) | TP (×1.06) | Held since | Days held (trading) |
 |---|---|---|---|---|---|---|---|
-| WMB | 5 | $73.2399 | $73.90 | $67.38 | $77.63 | 2026-08-19 | ~8 |
-| LTH | 9 | $44.3899 | $44.11 | $40.84 | $47.05 | 2026-08-25 | ~4 |
-| BBY | 5 | $83.9600 | $82.27 | $77.24 | $88.98 | 2026-08-27 | ~2 |
-| TIGO | 4 | $92.9199 | $93.81 | $85.49 | $98.50 | 2026-08-27 | ~2 |
-| CGNX | 7 | $60.5150 | $60.52 | $55.67 | $64.15 | 2026-08-28 | 0 |
+| WMB | 5 | $73.2399 | $73.535 | $67.38 | $77.63 | 2026-08-19 | ~7 |
+| LTH | 9 | $44.3899 | $43.97 | $40.84 | $47.05 | 2026-08-25 | ~3 |
+| BBY | 5 | $83.9600 | $82.525 | $77.24 | $88.98 | 2026-08-27 | ~1 |
+| TIGO | 4 | $92.9199 | $93.595 | $85.49 | $98.50 | 2026-08-27 | ~1 |
+| CGNX | 7 | $60.5150 | $60.810 | $55.67 | $64.15 | 2026-08-28 | 0 |
 
-**All four held this run (Run 42)** — none hit its -8% stop, +6% take-profit, or 12-day max hold. WMB $74.53 (+1.8%, ~6 td), LTH $44.63 (+0.5%, 2 td), BBY $83.71 (-0.3%, 0 td), TIGO $92.95 (+0.03%, 0 td). All comfortably inside their bands.
+**All five held this run (Run 45)** — none hit its -8% stop, +6% take-profit, or 12-day max hold. WMB +0.4% (~7 td), LTH -0.9% (3 td), BBY -1.7% (1 td), TIGO +0.7% (1 td), CGNX +0.5% (0 td). All comfortably inside their bands. **No buy: new-buy path CLOSED at Step 5a** — settled cash $40.32 < 20% of capital ($403.16); scan/regime-gate/buy-filter not reached. Realized P&L unchanged at **+$21.11** (no exits). Total capital ~$2,015.8 vs $2,000 = **+0.79%**; SPY **+3.70%** since inception ($741.69 → $769.15 live); relative **-2.91 pp**. Kill switch ($1,600) not close; underperformance tripwire (-10pp) not flagged.
 
 **Buy detail (Run 39, 19:19 UTC):** scan (Dip-Buy Loop Screen: $40-100, mcap≥$5B, avg vol≥500K/30d, %chg<0) returned **175 dips** on a ~flat-to-up tape (SPY +0.14%, $766.99). Biggest-dip-first after Gates A/B/C/D: SYRE -11.2% biotech Phase-3 binary SKIP; OKLO -6.8%/IONQ -4.2%/ASTS -3.3% pre-revenue speculative SKIP; ZM -6.5% guidance-cut carry SKIP; FRO -4.9% Gate A (rpt 08-28); FER -4.8% Gate D fail + WMB sector collision; MXL -4.6% falling-knife carry SKIP; **LTM -3.58% ($52.78, Transportation/Airlines) — the one fresh candidate to clear ALL four gates** (earnings 11-13, no wash-sale, spread 0.09%, $52.78 > 200d EMA $51.00) **but buy-filter SKIP:** no clean single-day sentiment/macro catalyst on an up-market day; a continuation of a persistent multi-week slide (~-4.7% prior week, ~25% off the 02-03 $70.42 high), with a mgmt-cited sharp jet-fuel cost spike (margin headwind), a slight Q2 08-04 miss ($0.436 vs $0.44), and an overvaluation flag (GF Value ~$41.56), only barely above its 200d EMA = falling-knife/margin-deterioration (EIX/PBF/MXL setup), err-toward-fundamental/skip; GDDY -3.6% Gate D fail (<EMA $102.4); NVO -3.1% pharma falling-knife SKIP; commodity knives (AA/B/BHP/PAAS/GFI/EGO/VAL/MP) SKIP; BSX -2.9% Gate D fail (near 52wk low); ETSY -2.9% & CVNA -2.6% cleared gates, buy-filter SKIP on unchanged structural drivers (Run 38 carry); CRSP -2.6% biotech binary SKIP; FLUT/YUMC/QSR Consumer Services blocked by sector cap (held LTH). Circuit breaker not tripped (no realized trades today). Wash-sale blocklist EIX/PBF/ACIW (none in dip list). Criteria NOT loosened — valid no-action.
 
